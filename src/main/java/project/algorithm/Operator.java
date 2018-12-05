@@ -16,8 +16,6 @@ public class Operator {
 
     static {
         numbers = new NumberClass[37];
-        df = new DecimalFormat("#.####");
-        df.setRoundingMode(RoundingMode.CEILING);
         numbers[0] = new NumberClass(0, Color.GREEN, roundNumber(360.0 / 37.0 * 36.5) + 0.0001, roundNumber(360.0 / 37.0 * 0.5) - 0.0001);
         numbers[1] = new NumberClass(1, Color.RED, roundNumber(360.0 / 37.0 * 22.5) + 0.0001, roundNumber(360.0 / 37.0 * 23.5) - 0.0001);
         numbers[2] = new NumberClass(2, Color.BLACK, roundNumber(360.0 / 37.0 * 5.5) + 0.0001, roundNumber(360.0 / 37.0 * 6.5) - 0.0001);
@@ -73,8 +71,13 @@ public class Operator {
 
     private static void randomValueAndCalculateDegree(double angle, HistoryEntity history) {
         history.setChoice(ThreadLocalRandom.current().nextInt(0, 37));
-        double numberAngle = roundNumber(ThreadLocalRandom.current().nextDouble(numbers[history.getChoice()].getStartAngle(),
+        double numberAngle;
+        if (numbers[history.getChoice()].getStartAngle() > numbers[history.getChoice()].getEndAngle())
+            numberAngle = roundNumber(ThreadLocalRandom.current().nextDouble(numbers[history.getChoice()].getStartAngle(),
                 numbers[history.getChoice()].getEndAngle()));
+        else
+            numberAngle = roundNumber(ThreadLocalRandom.current().nextDouble(numbers[history.getChoice()].getStartAngle(),
+                    360.0 + numbers[history.getChoice()].getEndAngle()));
         if (numberAngle - angle > 0.0)
             history.setResultDegree(numberAngle - angle);
         else
