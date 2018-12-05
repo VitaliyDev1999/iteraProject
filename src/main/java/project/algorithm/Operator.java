@@ -77,6 +77,8 @@ public class Operator {
         else
             numberAngle = roundNumber(ThreadLocalRandom.current().nextDouble(numbers[history.getChoice()].getStartAngle(),
                     360.0 + numbers[history.getChoice()].getEndAngle()));
+        if (numberAngle > 360.0)
+            numberAngle -= 360.0;
         if (numberAngle - angle > 0.0)
             history.setResultDegree(numberAngle - angle);
         else
