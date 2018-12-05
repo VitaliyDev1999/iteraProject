@@ -1,7 +1,5 @@
 package algorithm;
 
-enum color {GREEN, RED, BLACK}
-
 public class NumberClass {
 
     private int number;
@@ -10,11 +8,11 @@ public class NumberClass {
 
     private double endAngle;
 
-    private color color;
+    private Color color;
 
-    public algorithm.color getColor() {return color;}
+    public algorithm.Color getColor() {return color;}
 
-    public void setColor(algorithm.color color) {this.color = color;}
+    public void setColor(algorithm.Color color) {this.color = color;}
 
     public int getNumber() {
         return number;
@@ -40,7 +38,7 @@ public class NumberClass {
         this.endAngle = endAngle;
     }
 
-    public NumberClass(int number, color color, double startAngle, double endAngle) {
+    public NumberClass(int number, Color color, double startAngle, double endAngle) {
         this.number = number;
         this.startAngle = startAngle;
         this.endAngle = endAngle;
