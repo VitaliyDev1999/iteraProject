@@ -12,7 +12,6 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Operator {
 
     private static NumberClass[] numbers;
-    private static DecimalFormat df;
 
     static {
         numbers = new NumberClass[37];
@@ -74,10 +73,12 @@ public class Operator {
         double numberAngle;
         if (numbers[history.getChoice()].getStartAngle() > numbers[history.getChoice()].getEndAngle())
             numberAngle = roundNumber(ThreadLocalRandom.current().nextDouble(numbers[history.getChoice()].getStartAngle(),
-                numbers[history.getChoice()].getEndAngle()));
+                    360.0 + numbers[history.getChoice()].getEndAngle()));
         else
             numberAngle = roundNumber(ThreadLocalRandom.current().nextDouble(numbers[history.getChoice()].getStartAngle(),
-                    360.0 + numbers[history.getChoice()].getEndAngle()));
+                    numbers[history.getChoice()].getEndAngle()));
+        if (numberAngle > 360.0)
+            numberAngle -= 360.0;
         if (numberAngle - angle > 0.0)
             history.setResultDegree(numberAngle - angle);
         else
