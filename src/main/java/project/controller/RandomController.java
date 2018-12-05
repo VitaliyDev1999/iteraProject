@@ -1,17 +1,21 @@
 package project.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import project.dto.ParamsDTO;
+import project.service.ParamsService;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/numbers")
 public class RandomController {
 
-    //TODO Realization of project.controller
+    @Autowired
+    private ParamsService paramsService;
 
-    @GetMapping(value = "/random")
-    public Integer getNumbers() {
-        return 1;
+    @PostMapping(value = "/random")
+    public @ResponseBody ParamsDTO getNumbers(ParamsDTO paramsDTO) {
+        return paramsService.getParams(paramsDTO.getAngle());
     }
 }
