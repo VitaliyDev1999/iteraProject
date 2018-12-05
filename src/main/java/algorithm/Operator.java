@@ -4,19 +4,14 @@ import project.entity.HistoryEntity;
 import project.entity.Type;
 import project.entity.tryLuckEntity;
 
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Operator {
 
     private static NumberClass[] numbers;
-    private static DecimalFormat df;
 
     static {
         numbers = new NumberClass[37];
-        df = new DecimalFormat("#.####");
-        df.setRoundingMode(RoundingMode.CEILING);
         numbers[0] = new NumberClass(0, Color.GREEN, roundNumber(360.0 / 37.0 * 36.5) + 0.0001, roundNumber(360.0 / 37.0 * 0.5) - 0.0001);
         numbers[1] = new NumberClass(1, Color.RED, roundNumber(360.0 / 37.0 * 22.5) + 0.0001, roundNumber(360.0 / 37.0 * 23.5) - 0.0001);
         numbers[2] = new NumberClass(2, Color.BLACK, roundNumber(360.0 / 37.0 * 5.5) + 0.0001, roundNumber(360.0 / 37.0 * 6.5) - 0.0001);
