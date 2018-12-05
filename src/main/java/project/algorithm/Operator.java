@@ -1,8 +1,9 @@
-package algorithm;
+package project.algorithm;
 
+import org.springframework.stereotype.Component;
 import project.entity.HistoryEntity;
 import project.entity.Type;
-import project.entity.tryLuckEntity;
+import project.entity.TryLuckEntity;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -60,7 +61,7 @@ public class Operator {
         return Math.round(num * 10000.0) / 10000.0;
     }
 
-    public static HistoryEntity checkWinReturnHistory(tryLuckEntity inputData){
+    public static HistoryEntity checkWinReturnHistory(TryLuckEntity inputData){
         HistoryEntity history = new HistoryEntity();
         randomValueAndCalculateDegree(inputData.getDegree(), history);
         if (inputData.getType() == Type.SINGLE || inputData.getType() == Type.RANGE)
@@ -80,7 +81,7 @@ public class Operator {
             history.setResultDegree(360.0 + numberAngle - angle);
     }
 
-    private static void checkNumbers(HistoryEntity history, tryLuckEntity inputData){
+    private static void checkNumbers(HistoryEntity history, TryLuckEntity inputData){
         String bet = "";
         for (int i = 0; i < inputData.getValues().length; i++) {
             bet += inputData.getValues()[i];
@@ -97,7 +98,7 @@ public class Operator {
         }
     }
 
-    private static void checkColor(HistoryEntity history, tryLuckEntity inputData){
+    private static void checkColor(HistoryEntity history, TryLuckEntity inputData){
         history.setBet(inputData.getType().toString());
         if (inputData.getType().toString().compareTo(numbers[history.getChoice()].getColor().toString()) == 0)
             history.setGame(true);

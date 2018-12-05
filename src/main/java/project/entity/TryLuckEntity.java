@@ -1,14 +1,14 @@
 package project.entity;
 
-public class tryLuckEntity {
+public class TryLuckEntity {
 
     private Type type;
     private int[] values;
     private double degree;
 
-    public tryLuckEntity(){}
+    public TryLuckEntity(){}
 
-    public tryLuckEntity(Type type, int[] values, double degree) {
+    public TryLuckEntity(Type type, int[] values, double degree) {
         this.type = type;
         this.values = values;
         this.degree = degree;

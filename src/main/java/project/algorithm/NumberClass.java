@@ -1,4 +1,4 @@
-package algorithm;
+package project.algorithm;
 
 public class NumberClass {
 
@@ -10,9 +10,9 @@ public class NumberClass {
 
     private Color color;
 
-    public algorithm.Color getColor() {return color;}
+    public project.algorithm.Color getColor() {return color;}
 
-    public void setColor(algorithm.Color color) {this.color = color;}
+    public void setColor(project.algorithm.Color color) {this.color = color;}
 
     public int getNumber() {
         return number;
