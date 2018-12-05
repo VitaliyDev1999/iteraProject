@@ -12,7 +12,6 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Operator {
 
     private static NumberClass[] numbers;
-    private static DecimalFormat df;
 
     static {
         numbers = new NumberClass[37];
