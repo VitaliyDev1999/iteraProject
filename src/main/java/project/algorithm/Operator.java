@@ -1,12 +1,9 @@
 package project.algorithm;
 
-import org.springframework.stereotype.Component;
 import project.entity.HistoryEntity;
-import project.entity.Type;
 import project.entity.TryLuckEntity;
+import project.entity.Type;
 
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Operator {

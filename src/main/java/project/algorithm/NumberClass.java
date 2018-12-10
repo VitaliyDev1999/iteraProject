@@ -10,9 +10,9 @@ public class NumberClass {
 
     private Color color;
 
-    public project.algorithm.Color getColor() {return color;}
+    public Color getColor() {return color;}
 
-    public void setColor(project.algorithm.Color color) {this.color = color;}
+    public void setColor(Color color) {this.color = color;}
 
     public int getNumber() {
         return number;
