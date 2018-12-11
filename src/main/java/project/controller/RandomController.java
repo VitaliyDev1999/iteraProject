@@ -9,7 +9,6 @@ import project.entity.Statistic;
 import project.entity.StatisticRequest;
 import project.entity.TryLuckEntity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
