@@ -1,4 +1,6 @@
-package project.algorithm;
+package project.utils;
+
+import project.algorithm.Color;
 
 public class NumberClass {
 
