@@ -9,6 +9,7 @@ import project.entity.Statistic;
 import project.entity.StatisticRequest;
 import project.entity.TryLuckEntity;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -19,7 +20,8 @@ public class RandomController {
     private StatisticService statisticService;
 
     @PostMapping(value = "/bets")
-    public HistoryEntity getNumbers(@RequestBody TryLuckEntity tryLuckEntity) {
+    public HistoryEntity getNumbers(@RequestBody TryLuckEntity tryLuckEntity, HttpServletRequest request) {
+        System.out.println(request.getRemoteAddr());
         return Operator.checkWinReturnHistory(tryLuckEntity);
     }
 
