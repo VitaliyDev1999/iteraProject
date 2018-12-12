@@ -1,12 +1,17 @@
 package project.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
+@Table(name = "history")
 public class HistoryDbEntity {
 
-    @Column(unique = true, name="ip")
-    private String ip;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="id")
+    private Long id;
 
     @Column(name="type")
     private String type;
@@ -18,17 +23,79 @@ public class HistoryDbEntity {
     private String result;
 
     @Column(name="win")
-    private  char win;
+    private boolean win;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="id")
-    private long id;
-    public long getId() {
+    @ManyToOne
+    @JoinColumn(name = "ip_address_id")
+    @JsonIgnore
+    private IdIpEntity ip;
+
+    public HistoryDbEntity() {
+    }
+
+    public HistoryDbEntity(String type, String bet, String result, boolean win) {
+        this.type = type;
+        this.bet = bet;
+        this.result = result;
+        this.win = win;
+    }
+
+    public Long getId() {
         return id;
     }
-    public void setId(long id) {
+
+    public void setId(Long id) {
         this.id = id;
     }
 
+    public IdIpEntity getIp() {
+        return ip;
+    }
+
+    public void setIp(IdIpEntity ip) {
+        this.ip = ip;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getBet() {
+        return bet;
+    }
+
+    public void setBet(String bet) {
+        this.bet = bet;
+    }
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
+
+    public boolean isWin() {
+        return win;
+    }
+
+    public void setWin(boolean win) {
+        this.win = win;
+    }
+
+    @Override
+    public String toString() {
+        return "HistoryDbEntity{" +
+                "id=" + id +
+                ", type='" + type + '\'' +
+                ", bet='" + bet + '\'' +
+                ", result='" + result + '\'' +
+                ", win=" + win +
+                '}';
+    }
 }
