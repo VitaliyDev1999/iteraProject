@@ -1,0 +1,49 @@
+package project.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import project.algorithm.Operator;
+import project.entity.HistoryDbEntity;
+import project.entity.HistoryEntity;
+import project.entity.IdIpEntity;
+import project.entity.TryLuckEntity;
+import project.repository.HistoryRepository;
+import project.repository.IpRepository;
+
+@Service
+public class RandomServiceImpl implements RandomService {
+
+    @Autowired
+    private IpRepository ipRepository;
+
+    @Autowired
+    private HistoryRepository historyRepository;
+
+    @Transactional
+    @Override
+    public HistoryEntity getLuckyTry(String ipAddress, TryLuckEntity entity) {
+        if(ipAddress != null){
+            IdIpEntity idIpEntity = ipRepository.findByIp(ipAddress);
+            if(idIpEntity == null){
+                idIpEntity = new IdIpEntity();
+                idIpEntity.setIp(ipAddress);
+                ipRepository.save(idIpEntity);
+            }
+            HistoryEntity historyEntity = Operator.checkWinReturnHistory(entity);
+
+            HistoryDbEntity historyDbEntity = new HistoryDbEntity();
+
+            historyDbEntity.setIp(idIpEntity);
+            historyDbEntity.setWin(historyEntity.isGame());
+            historyDbEntity.setType(entity.getType().toString());
+            historyDbEntity.setResult(Integer.toString(historyEntity.getChoice()));
+            historyDbEntity.setBet(historyEntity.getBet());
+
+            historyRepository.save(historyDbEntity);
+
+            return historyEntity;
+        }
+        return null;
+    }
+}

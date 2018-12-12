@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.*;
 import project.entity.*;
 import project.service.HistoryService;
 import project.service.IpService;
+import project.service.RandomService;
 import project.service.StatisticService;
-import project.algorithm.Operator;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -14,6 +14,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class RandomController {
+
+    @Autowired
+    private RandomService randomService;
 
     @Autowired
     private StatisticService statisticService;
@@ -40,8 +43,8 @@ public class RandomController {
 
     @PostMapping(value = "/bets")
     public HistoryEntity getNumbers(@RequestBody TryLuckEntity tryLuckEntity, HttpServletRequest request) {
-        System.out.println(request.getRemoteAddr());
-        return Operator.checkWinReturnHistory(tryLuckEntity);
+        String remoteAddr = request.getRemoteAddr();
+        return randomService.getLuckyTry(remoteAddr, tryLuckEntity);
     }
 
     @PostMapping(value = "/statistic/range")
