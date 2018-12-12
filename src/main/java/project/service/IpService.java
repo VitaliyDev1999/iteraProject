@@ -11,8 +11,13 @@ public class IpService {
     @Autowired
     private IpRepository ipRepository;
 
-    public void saveIp(IdIpEntity idIpEntity){
-        ipRepository.save(idIpEntity);
+    public void saveIp(String ipAddress){
+        IdIpEntity idIpEntity = ipRepository.findByIp(ipAddress);
+        if(idIpEntity == null){
+            idIpEntity = new IdIpEntity();
+            idIpEntity.setIp(ipAddress);
+            ipRepository.save(idIpEntity);
+        }
     }
 
     public IdIpEntity getIP(String ipAdress){

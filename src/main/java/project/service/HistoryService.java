@@ -30,7 +30,7 @@ public class HistoryService implements IHistoryService{
     public List<HistoryDbEntity> getSeveralLastHistory(String ipAddress){
         if(ipAddress != null) {
             IdIpEntity idIpEntity = ipRepository.findByIp(ipAddress);
-            List<HistoryDbEntity> historyDB = historyRepository.findAllByIpEqualsOrderById(idIpEntity);
+            List<HistoryDbEntity> historyDB = historyRepository.findAllByIpEqualsOrderById(idIpEntity.getId());
             return historyDB;
         }
         return null;

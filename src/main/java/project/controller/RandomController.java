@@ -29,6 +29,7 @@ public class RandomController {
 
     @GetMapping(value = "/test")
     public List<HistoryDbEntity> getHistory(HttpServletRequest request) {
+        ipService.saveIp(request.getRemoteAddr());
         return historyService.getSeveralLastHistory(request.getRemoteAddr());
     }
 

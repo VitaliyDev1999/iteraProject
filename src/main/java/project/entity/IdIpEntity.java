@@ -14,7 +14,7 @@ public class IdIpEntity {
     @Column(name="id")
     private Long id;
 
-    @Column(name = "ip")
+    @Column(name = "ip", unique = true)
     private String ip;
 
     @OneToMany(mappedBy="ip")
