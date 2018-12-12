@@ -11,6 +11,7 @@ public class HistoryDbEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="id")
+    @JsonIgnore
     private Long id;
 
     @Column(name="type")

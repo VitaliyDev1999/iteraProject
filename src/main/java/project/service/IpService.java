@@ -14,4 +14,8 @@ public class IpService {
     public void saveIp(IdIpEntity idIpEntity){
         ipRepository.save(idIpEntity);
     }
+
+    public IdIpEntity getIP(String ipAdress){
+        return ipRepository.findByIp(ipAdress);
+    }
 }

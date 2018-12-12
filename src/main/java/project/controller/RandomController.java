@@ -28,23 +28,13 @@ public class RandomController {
     private IpService ipService;
 
     @GetMapping(value = "/test")
-    public void createNumbers() {
-        HistoryDbEntity historyDbEntity = new HistoryDbEntity();
-        historyDbEntity.setBet("1");
-        historyDbEntity.setResult("2");
-        historyDbEntity.setType("3");
-        IdIpEntity idIpEntity = new IdIpEntity();
-        idIpEntity.setIp("324234");
-        ipService.saveIp(idIpEntity);
-        historyDbEntity.setIp(idIpEntity);
-        historyDbEntity.setWin(true);
-        historyService.saveHistory(historyDbEntity);
+    public List<HistoryDbEntity> getHistory(HttpServletRequest request) {
+        return historyService.getSeveralLastHistory(request.getRemoteAddr());
     }
 
     @PostMapping(value = "/bets")
     public HistoryEntity getNumbers(@RequestBody TryLuckEntity tryLuckEntity, HttpServletRequest request) {
-        String remoteAddr = request.getRemoteAddr();
-        return randomService.getLuckyTry(remoteAddr, tryLuckEntity);
+        return randomService.getLuckyTry(request.getRemoteAddr(), tryLuckEntity);
     }
 
     @PostMapping(value = "/statistic/range")
