@@ -34,7 +34,7 @@ public class RandomController {
     }
 
     @PostMapping(value = "/bets")
-    public HistoryEntity getNumbers(@RequestBody TryLuckEntity tryLuckEntity, HttpServletRequest request) {
+    public HistoryDto getNumbers(@RequestBody TryLuckEntity tryLuckEntity, HttpServletRequest request) {
         return randomService.getLuckyTry(request.getRemoteAddr(), tryLuckEntity);
     }
 

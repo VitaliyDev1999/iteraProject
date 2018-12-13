@@ -1,9 +1,8 @@
 package project.algorithm;
 
-import project.entity.HistoryEntity;
+import project.entity.HistoryDto;
 import project.entity.TryLuckEntity;
 import project.entity.Type;
-import project.utils.NumberClass;
 import project.utils.RuletteNumList;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -14,8 +13,8 @@ public class Operator {
         return Math.round(num * 10000.0) / 10000.0;
     }
 
-    public static HistoryEntity checkWinReturnHistory(TryLuckEntity inputData){
-        HistoryEntity history = new HistoryEntity();
+    public static HistoryDto checkWinReturnHistory(TryLuckEntity inputData){
+        HistoryDto history = new HistoryDto();
         randomValueAndCalculateDegree(inputData.getDegree(), history);
         if (inputData.getType() == Type.SINGLE || inputData.getType() == Type.RANGE)
             checkNumbers(history, inputData);
@@ -24,7 +23,7 @@ public class Operator {
         return history;
     }
 
-    private static void randomValueAndCalculateDegree(double angle, HistoryEntity history) {
+    private static void randomValueAndCalculateDegree(double angle, HistoryDto history) {
         history.setChoice(ThreadLocalRandom.current().nextInt(0, 37));
         double numberAngle;
         if (RuletteNumList.getNumber(history.getChoice()).getStartAngle() > RuletteNumList.getNumber(history.getChoice()).getEndAngle())
@@ -41,7 +40,7 @@ public class Operator {
             history.setResultDegree(360.0 + numberAngle - angle);
     }
 
-    private static void checkNumbers(HistoryEntity history, TryLuckEntity inputData){
+    private static void checkNumbers(HistoryDto history, TryLuckEntity inputData){
         String bet = "";
         for (int i = 0; i < inputData.getValues().length; i++) {
             bet += inputData.getValues()[i];
@@ -58,7 +57,7 @@ public class Operator {
         }
     }
 
-    private static void checkColor(HistoryEntity history, TryLuckEntity inputData){
+    private static void checkColor(HistoryDto history, TryLuckEntity inputData){
         history.setBet(inputData.getType().toString());
         if (inputData.getType().toString().compareTo(RuletteNumList.getNumber(history.getChoice()).getColor().toString()) == 0)
             history.setGame(true);

@@ -1,15 +1,15 @@
 package project.entity;
 
-public class HistoryEntity {
+public class HistoryDto {
 
     private String bet;
     private int choice;
     private boolean game;
     private double resultDegree;
 
-    public HistoryEntity(){}
+    public HistoryDto(){}
 
-    public HistoryEntity(String bet, int choice, boolean game) {
+    public HistoryDto(String bet, int choice, boolean game) {
         this.bet = bet;
         this.choice = choice;
         this.game = game;
