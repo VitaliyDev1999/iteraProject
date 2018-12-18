@@ -3,14 +3,16 @@ package project.entity;
 public class HistoryDto {
 
     private String bet;
+    private String range;
     private int choice;
     private boolean game;
     private double resultDegree;
 
     public HistoryDto(){}
 
-    public HistoryDto(String bet, int choice, boolean game) {
+    public HistoryDto(String bet, String range, int choice, boolean game) {
         this.bet = bet;
+        this.range = range;
         this.choice = choice;
         this.game = game;
     }
@@ -22,6 +24,10 @@ public class HistoryDto {
     public void setBet(String bet) {
         this.bet = bet;
     }
+
+    public String getRange() { return range; }
+
+    public void setRange(String range) { this.range = range; }
 
     public int getChoice() {
         return choice;

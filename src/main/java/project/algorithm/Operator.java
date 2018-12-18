@@ -1,6 +1,7 @@
 package project.algorithm;
 
 import project.entity.HistoryDto;
+import project.entity.RangeLuckEntity;
 import project.entity.TryLuckEntity;
 import project.entity.Type;
 import project.utils.RuletteNumList;
@@ -9,11 +10,21 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Operator {
 
-    private static double roundNumber(double num){
+    private static double roundNumber(double num) {
         return Math.round(num * 10000.0) / 10000.0;
     }
 
-    public static HistoryDto checkWinReturnHistory(TryLuckEntity inputData){
+    public static HistoryDto checkWinReturnHistoryRange(RangeLuckEntity inputData) {
+        HistoryDto history = new HistoryDto();
+        history.setRange(inputData.getRangeInput());
+        history.setBet(inputData.getBetInput());
+        history.setResultDegree(0.0);
+        history.setChoice(makeRandom(inputData.getRange()[0], inputData.getRange()[inputData.getRange().length - 1]));
+        history.setGame(checkWin(history.getChoice(), inputData.getBet()));
+        return history;
+    }
+
+    public static HistoryDto checkWinReturnHistoryRoulette(TryLuckEntity inputData) {
         HistoryDto history = new HistoryDto();
         randomValueAndCalculateDegree(inputData.getDegree(), history);
         if (inputData.getType() == Type.SINGLE || inputData.getType() == Type.RANGE)
@@ -21,6 +32,14 @@ public class Operator {
         else
             checkColor(history, inputData);
         return history;
+    }
+
+    private static boolean checkWin(int choice, Integer[] betRange){
+        for (int i = 0; i < betRange.length; i++) {
+            if (betRange[i].compareTo(choice) == 0)
+                return true;
+        }
+        return false;
     }
 
     private static void randomValueAndCalculateDegree(double angle, HistoryDto history) {
@@ -40,7 +59,7 @@ public class Operator {
             history.setResultDegree(360.0 + numberAngle - angle);
     }
 
-    private static void checkNumbers(HistoryDto history, TryLuckEntity inputData){
+    private static void checkNumbers(HistoryDto history, TryLuckEntity inputData) {
         String bet = "";
         for (int i = 0; i < inputData.getValues().length; i++) {
             bet += inputData.getValues()[i];
@@ -57,12 +76,16 @@ public class Operator {
         }
     }
 
-    private static void checkColor(HistoryDto history, TryLuckEntity inputData){
+    private static void checkColor(HistoryDto history, TryLuckEntity inputData) {
         history.setBet(inputData.getType().toString());
         if (inputData.getType().toString().compareTo(RuletteNumList.getNumber(history.getChoice()).getColor().toString()) == 0)
             history.setGame(true);
         else
             history.setGame(false);
+    }
+
+    private static int makeRandom(int first, int second){
+        return ThreadLocalRandom.current().nextInt(0, 37);
     }
 
 }
