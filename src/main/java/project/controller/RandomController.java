@@ -35,7 +35,6 @@ public class RandomController {
 
     @PostMapping(value = "/bets/range")
     public HistoryDto getRangeNumber(@RequestBody RangeLuckEntity rangeLuckEntity, HttpServletRequest request) {
-        System.out.println(rangeLuckEntity.getRangeInput() + "   " + rangeLuckEntity.getBetInput());
         return randomService.getLuckyTry(request.getRemoteAddr(), rangeLuckEntity);
     }
 

@@ -33,13 +33,13 @@ public class RandomServiceImpl implements RandomService {
     @Transactional
     @Override
     public HistoryDto getLuckyTry(String ipAddress, TryLuckEntity entity) {
-        if(ipAddress != null){
-                IdIpEntity idIpEntity = ipRepository.findByIp(ipAddress);
-                if(idIpEntity == null){
-                    idIpEntity = new IdIpEntity();
-                    idIpEntity.setIp(ipAddress);
-                    ipRepository.save(idIpEntity);
-                }
+        if (ipAddress != null) {
+            IdIpEntity idIpEntity = ipRepository.findByIp(ipAddress);
+            if (idIpEntity == null) {
+                idIpEntity = new IdIpEntity();
+                idIpEntity.setIp(ipAddress);
+                ipRepository.save(idIpEntity);
+            }
             HistoryDto historyDto = Operator.checkWinReturnHistoryRoulette(entity);
 
             HistoryDbEntity historyDbEntity = new HistoryDbEntity();
@@ -53,6 +53,11 @@ public class RandomServiceImpl implements RandomService {
             historyDto.setRange("Roulette");
 
             historyRepository.save(historyDbEntity);
+
+            createStatistic(idIpEntity, new RangeStringEntity(historyDto.getRange()));
+
+            addRandomAndUpdateStatistic(historyDto.getChoice(), idIpEntity, new RangeStringEntity(historyDto.getRange()));
+
             return historyDto;
         }
         return null;
@@ -61,9 +66,9 @@ public class RandomServiceImpl implements RandomService {
     @Transactional
     @Override
     public HistoryDto getLuckyTry(String ipAddress, RangeLuckEntity rangeLuckEntity) {
-        if(ipAddress != null){
+        if (ipAddress != null) {
             IdIpEntity idIpEntity = ipRepository.findByIp(ipAddress);
-            if(idIpEntity == null){
+            if (idIpEntity == null) {
                 idIpEntity = new IdIpEntity();
                 idIpEntity.setIp(ipAddress);
                 ipRepository.save(idIpEntity);
@@ -85,26 +90,49 @@ public class RandomServiceImpl implements RandomService {
 
             createStatistic(idIpEntity, new RangeStringEntity(historyDto.getRange()));
 
+            addRandomAndUpdateStatistic(historyDto.getChoice(), idIpEntity, new RangeStringEntity(historyDto.getRange()));
+
             return historyDto;
         }
         return null;
     }
 
-    public void createStatistic(IdIpEntity idIpEntity ,RangeStringEntity request) {
+    private void createStatistic(IdIpEntity idIpEntity, RangeStringEntity request) {
         StatisticRequest statisticRequest = statisticRequestRepository.findByIpEquals(idIpEntity.getId(), request.getRange());
         if (statisticRequest == null) {
+            List<Statistic> statistics;
             statisticRequest = new StatisticRequest();
             statisticRequest.setIp(idIpEntity);
-            statisticRequest.setCount(0);
+            statisticRequest.setCount(RuletteNumList.randomCount);
             statisticRequest.setRange(request.getRange());
             statisticRequestRepository.save(statisticRequest);
-            List<Statistic> statistics = ParseRange.fillStatistic(ParseRange.parseRange(statisticRequest.getRange()), statisticRequest);
-            //RuletteNumList.randomNumbersInRange();
-            for (Statistic statistic:
+            if (statisticRequest.getRange().compareTo("Roulette") == 0)
+                statistics = ParseRange.fillStatistic(ParseRange.parseRange("0-36"), statisticRequest);
+            else
+                statistics = ParseRange.fillStatistic(ParseRange.parseRange(statisticRequest.getRange()), statisticRequest);
+            RuletteNumList.randomNumbersInRange(statistics);
+            for (Statistic statistic :
                     statistics) {
                 statisticRepository.save(statistic);
             }
         }
     }
 
+    private void addRandomAndUpdateStatistic(Integer newNumber, IdIpEntity idIpEntity, RangeStringEntity request) {
+        StatisticRequest statisticRequest = statisticRequestRepository.findByIpEquals(idIpEntity.getId(), request.getRange());
+        List<Statistic> statistics;
+        statistics = statisticRepository.findAllByIpAndStatisticRequest(statisticRequest.getId());
+        statisticRequest.setCount(statisticRequest.getCount() + 1);
+        for (int j = 0; j < statistics.size(); j++) {
+            if (statistics.get(j).getValue().compareTo(newNumber) == 0) {
+                statistics.get(j).setCount(statistics.get(j).getCount() + 1);
+                j = statistics.size();
+            }
+            for (Statistic statistic :
+                    statistics) {
+                statistic.calculatePercent(statisticRequest.getCount());
+                statisticRepository.save(statistic);
+            }
+        }
+    }
 }

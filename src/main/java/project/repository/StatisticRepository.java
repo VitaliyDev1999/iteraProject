@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import project.entity.Statistic;
 
+import java.util.List;
+
 public interface StatisticRepository extends JpaRepository<Statistic, Long> {
     @Query(value = "SELECT * FROM statistic s where s.statistic_range_id = :id ORDER BY s.percent desc LIMIT 1",
             nativeQuery = true)
@@ -13,4 +15,8 @@ public interface StatisticRepository extends JpaRepository<Statistic, Long> {
     @Query(value = "SELECT * FROM statistic s where s.statistic_range_id = :id ORDER BY s.percent asc LIMIT 1",
             nativeQuery = true)
     Statistic findAllByIdMin(@Param("id") Long id);
+
+    @Query(value = "SELECT * FROM statistic s where s.statistic_range_id = :id",
+            nativeQuery = true)
+    List<Statistic> findAllByIpAndStatisticRequest(@Param("id") Long id);
 }

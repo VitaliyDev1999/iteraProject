@@ -1,8 +1,14 @@
 package project.utils;
 
 import project.algorithm.Color;
+import project.entity.Statistic;
+
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class RuletteNumList {
+
+    public static final int randomCount = 10000;
 
     private static NumberClass[] numbers;
 
@@ -55,6 +61,20 @@ public class RuletteNumList {
         return numbers[index];
     }
 
-    //public static void randomNumbersInRange()
+    public static void randomNumbersInRange(List<Statistic> statistics){
+        for (int i = 0; i < randomCount; i++) {
+            int number = ThreadLocalRandom.current().nextInt(statistics.get(0).getValue(), statistics.get(statistics.size() - 1).getValue());
+            for (int j = 0; j < statistics.size(); j++) {
+                if (statistics.get(j).getValue().compareTo(number) == 0){
+                    statistics.get(j).setCount(statistics.get(j).getCount() + 1);
+                    j = statistics.size();
+                }
+            }
+        }
+        for (Statistic statistic:
+             statistics) {
+            statistic.calculatePercent(randomCount);
+        }
+    }
 
 }
