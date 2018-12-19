@@ -22,6 +22,7 @@ public class Operator {
         history.setResultDegree(0.0);
         history.setChoice(makeRandom(inputData.getRange().get(0), inputData.getRange().get(inputData.getRange().size() - 1)));
         history.setGame(checkWin(history.getChoice(), inputData.getBet()));
+        history.setColor(RuletteNumList.getNumber(history.getChoice()).getColor());
         return history;
     }
 
@@ -58,6 +59,7 @@ public class Operator {
             history.setResultDegree(numberAngle - angle);
         else
             history.setResultDegree(360.0 + numberAngle - angle);
+        history.setColor(RuletteNumList.getNumber(history.getChoice()).getColor());
     }
 
     private static void checkNumbers(HistoryDto history, TryLuckEntity inputData) {

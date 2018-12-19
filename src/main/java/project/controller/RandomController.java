@@ -44,8 +44,8 @@ public class RandomController {
     }
 
     @PostMapping(value = "/statistic/range")
-    public List<StatisticRequest> getStatistic(@RequestBody String range, HttpServletRequest request) {
-        return statisticService.getStatistic(range, request.getRemoteAddr());
+    public List<Statistic> getStatistic(@RequestBody RangeStringEntity rangeStringEntity, HttpServletRequest request) {
+        return statisticService.getStatistic(rangeStringEntity, request.getRemoteAddr());
     }
 
 }

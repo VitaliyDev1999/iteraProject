@@ -1,5 +1,7 @@
 package project.entity;
 
+import project.algorithm.Color;
+
 public class HistoryDto {
 
     private String bet;
@@ -7,14 +9,24 @@ public class HistoryDto {
     private int choice;
     private boolean game;
     private double resultDegree;
+    private Color color;
 
     public HistoryDto(){}
 
-    public HistoryDto(String bet, String range, int choice, boolean game) {
+    public HistoryDto(String bet, String range, int choice, boolean game, Color color) {
         this.bet = bet;
         this.range = range;
         this.choice = choice;
         this.game = game;
+        this.color = color;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 
     public String getBet() {

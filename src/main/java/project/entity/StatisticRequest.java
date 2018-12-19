@@ -26,13 +26,9 @@ public class StatisticRequest {
     private Integer count;
 
     @ManyToOne
-    @JoinColumn(name = "ip_address_id", unique = true)
+    @JoinColumn(name = "ip_address_id")
     @JsonIgnore
     private IdIpEntity ip;
-
-    @OneToMany(mappedBy="id")
-    @JsonIgnore
-    private List<Statistic> statistic;
 
     public StatisticRequest() {
     }
@@ -81,20 +77,6 @@ public class StatisticRequest {
 
     public void setIp(IdIpEntity ip) {
         this.ip = ip;
-    }
-
-    public List<Statistic> getStatistic() {
-        return statistic;
-    }
-
-    public void setStatistic(List<Statistic> statistic) {
-        this.statistic = statistic;
-    }
-
-    public void fillStatistic(int[] range){
-        for (int i = 0; i < range.length; i++) {
-            values.add(new Statistic(range[i], 0, 0.0));
-        }
     }
 
     public void updateStatistic(int number){

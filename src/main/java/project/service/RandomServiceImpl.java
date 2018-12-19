@@ -37,6 +37,7 @@ public class RandomServiceImpl implements RandomService {
             historyDbEntity.setType(entity.getType().toString());
             historyDbEntity.setResult(Integer.toString(historyDto.getChoice()));
             historyDbEntity.setBet(historyDto.getBet());
+            historyDto.setRange("Roulette");
 
             historyRepository.save(historyDbEntity);
             return historyDto;
