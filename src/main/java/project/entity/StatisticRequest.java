@@ -4,40 +4,57 @@ import java.util.List;
 
 public class StatisticRequest {
 
-    private List<Integer> values;
-    private List<Integer> range;
-    private Integer number;
+    private List<Statistic> values;
+    private String range;
+    private Integer count;
 
     public StatisticRequest() {
     }
 
-    public StatisticRequest(List<Integer> values, List<Integer> range, Integer number) {
+    public StatisticRequest(List<Statistic> values, String range, Integer number) {
         this.values = values;
         this.range = range;
-        this.number = number;
+        this.count = number;
     }
 
-    public List<Integer> getValues() {
+    public List<Statistic> getValues() {
         return values;
     }
 
-    public void setValues(List<Integer> values) {
+    public void setValues(List<Statistic> values) {
         this.values = values;
     }
 
-    public List<Integer> getRange() {
+    public String getRange() {
         return range;
     }
 
-    public void setRange(List<Integer> range) {
+    public void setRange(String range) {
         this.range = range;
     }
 
-    public Integer getNumber() {
-        return number;
+    public Integer getCount() {
+        return count;
     }
 
-    public void setNumber(Integer number) {
-        this.number = number;
+    public void setCount(Integer count) {
+        this.count = count;
     }
+
+    public void fillStatistic(int[] range){
+        for (int i = 0; i < range.length; i++) {
+            values.add(new Statistic(range[i], 0, 0.0));
+        }
+    }
+
+    public void updateStatistic(int number){
+        count++;
+        for (Statistic stat:
+             values) {
+            if (stat.getValue().compareTo(number) == 0)
+                stat.setNumber(stat.getNumber() + 1);
+            stat.calculatePercent(count);
+        }
+    }
+
 }

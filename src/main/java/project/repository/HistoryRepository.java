@@ -10,7 +10,7 @@ import java.awt.print.Pageable;
 import java.util.List;
 
 public interface HistoryRepository extends JpaRepository<HistoryDbEntity, Long> {
-    @Query(value = "SELECT * FROM history s where s.ip_address_id = :id ORDER BY s.id desc LIMIT 5",
+    @Query(value = "SELECT * FROM history s where s.ip_address_id = :id ORDER BY s.id desc LIMIT 3",
             nativeQuery = true)
     List<HistoryDbEntity> findAllByIpEqualsOrderById(@Param("id") Long id);
 }

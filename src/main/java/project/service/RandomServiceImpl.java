@@ -32,7 +32,7 @@ public class RandomServiceImpl implements RandomService {
             HistoryDbEntity historyDbEntity = new HistoryDbEntity();
 
             historyDbEntity.setIp(idIpEntity);
-            historyDbEntity.setRange("0-37");
+            historyDbEntity.setRange("Roulette");
             historyDbEntity.setWin(historyDto.isGame());
             historyDbEntity.setType(entity.getType().toString());
             historyDbEntity.setResult(Integer.toString(historyDto.getChoice()));

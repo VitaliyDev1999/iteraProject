@@ -5,15 +5,15 @@ import java.util.List;
 public class Statistic {
     private Integer value;
     private Integer count;
-    private Integer number;
+    private Double percent;
 
     public Statistic() {
     }
 
-    public Statistic(Integer value, Integer count, Integer number) {
+    public Statistic(Integer value, Integer count, Double number) {
         this.value = value;
         this.count = count;
-        this.number = number;
+        this.percent = number;
     }
 
     public Integer getValue() {
@@ -32,11 +32,16 @@ public class Statistic {
         this.count = count;
     }
 
-    public Integer getNumber() {
-        return number;
+    public Double getNumber() {
+        return percent;
     }
 
-    public void setNumber(Integer number) {
-        this.number = number;
+    public void setNumber(Double number) {
+        this.percent = number;
     }
+
+    public void calculatePercent(Integer generalNumber){
+        percent = count.doubleValue() / generalNumber.doubleValue();
+    }
+
 }
