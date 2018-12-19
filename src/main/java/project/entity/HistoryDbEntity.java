@@ -17,6 +17,9 @@ public class HistoryDbEntity {
     @Column(name="type")
     private String type;
 
+    @Column(name="range")
+    private String range;
+
     @Column(name="bet")
     private String bet;
 
@@ -34,12 +37,14 @@ public class HistoryDbEntity {
     public HistoryDbEntity() {
     }
 
-    public HistoryDbEntity(String type, String bet, String result, boolean win) {
+    public HistoryDbEntity(String type, String range, String bet, String result, boolean win) {
         this.type = type;
+        this.range = range;
         this.bet = bet;
         this.result = result;
         this.win = win;
     }
+
 
     public Long getId() {
         return id;
@@ -69,6 +74,10 @@ public class HistoryDbEntity {
         return bet;
     }
 
+    public String getRange() { return range; }
+
+    public void setRange(String range) { this.range = range; }
+
     public void setBet(String bet) {
         this.bet = bet;
     }
@@ -94,6 +103,7 @@ public class HistoryDbEntity {
         return "HistoryDbEntity{" +
                 "id=" + id +
                 ", type='" + type + '\'' +
+                ", range='" + range + '\'' +
                 ", bet='" + bet + '\'' +
                 ", result='" + result + '\'' +
                 ", win=" + win +

@@ -27,20 +27,25 @@ public class RandomController {
     @Autowired
     private IpService ipService;
 
-    @GetMapping(value = "/test")
-    public List<HistoryDbEntity> getHistory(HttpServletRequest request) {
+    @GetMapping(value = "/history")
+    public List<HistoryDto> getHistory(HttpServletRequest request) {
         ipService.saveIp(request.getRemoteAddr());
         return historyService.getSeveralLastHistory(request.getRemoteAddr());
     }
 
-    @PostMapping(value = "/bets")
-    public HistoryDto getNumbers(@RequestBody TryLuckEntity tryLuckEntity, HttpServletRequest request) {
+    @PostMapping(value = "/bets/range")
+    public HistoryDto getRangeNumber(@RequestBody RangeLuckEntity rangeLuckEntity, HttpServletRequest request) {
+        return randomService.getLuckyTry(request.getRemoteAddr(), rangeLuckEntity);
+    }
+
+    @PostMapping(value = "/bets/roulette")
+    public HistoryDto getRouletteNumber(@RequestBody TryLuckEntity tryLuckEntity, HttpServletRequest request) {
         return randomService.getLuckyTry(request.getRemoteAddr(), tryLuckEntity);
     }
 
     @PostMapping(value = "/statistic/range")
-    public List<Statistic> getNumbers(@RequestBody StatisticRequest statisticRequest) {
-        return statisticService.getStatistic(statisticRequest);
+    public List<Statistic> getStatistic(@RequestBody RangeStringEntity rangeStringEntity, HttpServletRequest request) {
+        return statisticService.getStatistic(rangeStringEntity, request.getRemoteAddr());
     }
 
 }

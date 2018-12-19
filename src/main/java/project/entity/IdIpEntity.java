@@ -21,6 +21,10 @@ public class IdIpEntity {
     @JsonIgnore
     private List<HistoryDbEntity> historyDbEntities;
 
+    @OneToMany(mappedBy="ip")
+    @JsonIgnore
+    private List<StatisticRequest> statisticRequestList;
+
     public IdIpEntity() {
     }
 
@@ -50,6 +54,14 @@ public class IdIpEntity {
 
     public void setHistoryDbEntities(List<HistoryDbEntity> historyDbEntities) {
         this.historyDbEntities = historyDbEntities;
+    }
+
+    public List<StatisticRequest> getStatisticRequestList() {
+        return statisticRequestList;
+    }
+
+    public void setStatisticRequestList(List<StatisticRequest> statisticRequestList) {
+        this.statisticRequestList = statisticRequestList;
     }
 
     @Override
