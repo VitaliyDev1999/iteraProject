@@ -15,7 +15,7 @@ public class StatisticRequest {
     @JsonIgnore
     private Long id;
 
-    @OneToMany(mappedBy="id")
+    @OneToMany(mappedBy="statisticRequest")
     @JsonIgnore
     private List<Statistic> values;
 
