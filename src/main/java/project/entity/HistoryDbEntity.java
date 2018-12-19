@@ -45,6 +45,7 @@ public class HistoryDbEntity {
         this.win = win;
     }
 
+
     public Long getId() {
         return id;
     }
