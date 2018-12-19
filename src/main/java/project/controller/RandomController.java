@@ -35,6 +35,7 @@ public class RandomController {
 
     @PostMapping(value = "/bets/range")
     public HistoryDto getRangeNumber(@RequestBody RangeLuckEntity rangeLuckEntity, HttpServletRequest request) {
+        System.out.println(rangeLuckEntity.getRangeInput() + "   " + rangeLuckEntity.getBetInput());
         return randomService.getLuckyTry(request.getRemoteAddr(), rangeLuckEntity);
     }
 
@@ -44,7 +45,7 @@ public class RandomController {
     }
 
     @PostMapping(value = "/statistic/range")
-    public List<Statistic> getStatistic(@RequestBody RangeStringEntity rangeStringEntity, HttpServletRequest request) throws Exception{
+    public List<Statistic> getStatistic(@RequestBody RangeStringEntity rangeStringEntity, HttpServletRequest request) {
         return statisticService.getStatistic(rangeStringEntity, request.getRemoteAddr());
     }
 

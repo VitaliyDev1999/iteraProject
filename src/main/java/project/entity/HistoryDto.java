@@ -49,7 +49,7 @@ public class HistoryDto {
         this.choice = choice;
     }
 
-    public String isGame() {
+    public String getGame() {
         return game;
     }
 

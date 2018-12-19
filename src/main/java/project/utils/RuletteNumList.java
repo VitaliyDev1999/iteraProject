@@ -54,4 +54,7 @@ public class RuletteNumList {
     public static NumberClass getNumber(int index){
         return numbers[index];
     }
+
+    //public static void randomNumbersInRange()
+
 }

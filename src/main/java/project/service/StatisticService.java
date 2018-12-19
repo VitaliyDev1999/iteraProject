@@ -7,6 +7,7 @@ import project.repository.IpRepository;
 import project.repository.StatisticRepository;
 import project.repository.StatisticRequestRepository;
 import project.utils.ParseRange;
+import project.utils.RuletteNumList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,29 +24,20 @@ public class StatisticService {
     @Autowired
     private StatisticRequestRepository statisticRequestRepository;
 
-    public List<Statistic> getStatistic(RangeStringEntity request, String ipAddress) throws Exception {
-        IdIpEntity idIpEntity = ipRepository.findByIp(ipAddress);
-        if (idIpEntity == null) {
-            idIpEntity = new IdIpEntity();
-            idIpEntity.setIp(ipAddress);
-            ipRepository.save(idIpEntity);
-        }
-        StatisticRequest statisticRequest = statisticRequestRepository.findByIpEquals(idIpEntity.getId(), request.getRange());
-        if (statisticRequest == null) {
-            statisticRequest = new StatisticRequest();
-            statisticRequest.setIp(idIpEntity);
-            statisticRequest.setCount(0);
-            statisticRequest.setRange(request.getRange());
-            statisticRequestRepository.save(statisticRequest);
-            List<Statistic> statistics = ParseRange.fillStatistic(ParseRange.parseRange(statisticRequest.getRange()), statisticRequest);
-            for (Statistic statistic:
-                 statistics) {
-                statisticRepository.save(statistic);
+    public List<Statistic> getStatistic(RangeStringEntity request, String ipAddress) {
+        if(ipAddress != null) {
+            IdIpEntity idIpEntity = ipRepository.findByIp(ipAddress);
+            if (idIpEntity == null) {
+                idIpEntity = new IdIpEntity();
+                idIpEntity.setIp(ipAddress);
+                ipRepository.save(idIpEntity);
             }
+            StatisticRequest statisticRequest = statisticRequestRepository.findByIpEquals(idIpEntity.getId(), request.getRange());
+            List<Statistic> statisticResult = new ArrayList<>();
+            statisticResult.add(statisticRepository.findAllByIdMax(statisticRequest.getId()));
+            statisticResult.add(statisticRepository.findAllByIdMin(statisticRequest.getId()));
+            return statisticResult;
         }
-        List<Statistic> statisticResult = new ArrayList<>();
-        statisticResult.add(statisticRepository.findAllByIdMax(statisticRequest.getId()));
-        statisticResult.add(statisticRepository.findAllByIdMin(statisticRequest.getId()));
-        return statisticResult;
+        return null;
     }
 }

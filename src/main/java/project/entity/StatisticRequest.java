@@ -84,7 +84,7 @@ public class StatisticRequest {
         for (Statistic stat:
              values) {
             if (stat.getValue().compareTo(number) == 0)
-                stat.setNumber(stat.getNumber() + 1);
+                stat.setCount(stat.getCount() + 1);
             stat.calculatePercent(count);
         }
     }

@@ -31,10 +31,10 @@ public class Statistic {
     public Statistic() {
     }
 
-    public Statistic(Integer value, Integer count, Double number) {
+    public Statistic(Integer value, Integer count, Double percent) {
         this.value = value;
         this.count = count;
-        this.percent = number;
+        this.percent = percent;
     }
 
     public Integer getValue() {
@@ -51,14 +51,6 @@ public class Statistic {
 
     public void setCount(Integer count) {
         this.count = count;
-    }
-
-    public Double getNumber() {
-        return percent;
-    }
-
-    public void setNumber(Double number) {
-        this.percent = number;
     }
 
     public Long getId() {
