@@ -1,9 +1,9 @@
 package project.service;
 
-import project.entity.HistoryDbEntity;
+import project.entity.HistoryDto;
 
 import java.util.List;
 
 public interface IHistoryService {
-    List<HistoryDbEntity> getSeveralLastHistory(String ipAdress);
+    List<HistoryDto> getSeveralLastHistory(String ipAdress);
 }
