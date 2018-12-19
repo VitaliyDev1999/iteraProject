@@ -47,6 +47,5 @@ public class StatisticService {
         statisticResult.add(statisticRepository.findAllByIdMax(statisticRequest.getId()));
         statisticResult.add(statisticRepository.findAllByIdMin(statisticRequest.getId()));
         return statisticResult;
-
     }
 }
