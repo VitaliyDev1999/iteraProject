@@ -1,12 +1,38 @@
 package project.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.util.List;
 
+@Entity
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"range", "ip_address_id"}, name = "uniqueRangeIpConstraint")}, name = "statistic_range")
 public class StatisticRequest {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="id")
+    @JsonIgnore
+    private Long id;
+
+    @OneToMany(mappedBy="id")
+    @JsonIgnore
     private List<Statistic> values;
+
+    @Column(name="range")
     private String range;
+
+    @Column(name="count")
     private Integer count;
+
+    @ManyToOne
+    @JoinColumn(name = "ip_address_id", unique = true)
+    @JsonIgnore
+    private IdIpEntity ip;
+
+    @OneToMany(mappedBy="id")
+    @JsonIgnore
+    private List<Statistic> statistic;
 
     public StatisticRequest() {
     }
@@ -41,6 +67,30 @@ public class StatisticRequest {
         this.count = count;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public IdIpEntity getIp() {
+        return ip;
+    }
+
+    public void setIp(IdIpEntity ip) {
+        this.ip = ip;
+    }
+
+    public List<Statistic> getStatistic() {
+        return statistic;
+    }
+
+    public void setStatistic(List<Statistic> statistic) {
+        this.statistic = statistic;
+    }
+
     public void fillStatistic(int[] range){
         for (int i = 0; i < range.length; i++) {
             values.add(new Statistic(range[i], 0, 0.0));
@@ -55,6 +105,16 @@ public class StatisticRequest {
                 stat.setNumber(stat.getNumber() + 1);
             stat.calculatePercent(count);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Statistic{" +
+                "id=" + id +
+                ", values='" + values + '\'' +
+                ", range='" + range + '\'' +
+                ", count='" + count + '\'' +
+                '}';
     }
 
 }

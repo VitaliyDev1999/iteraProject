@@ -39,7 +39,6 @@ public class RandomServiceImpl implements RandomService {
             historyDbEntity.setBet(historyDto.getBet());
 
             historyRepository.save(historyDbEntity);
-
             return historyDto;
         }
         return null;
@@ -55,6 +54,8 @@ public class RandomServiceImpl implements RandomService {
                 idIpEntity.setIp(ipAddress);
                 ipRepository.save(idIpEntity);
             }
+            rangeLuckEntity.setBet();
+            rangeLuckEntity.setRange();
             HistoryDto historyDto = Operator.checkWinReturnHistoryRange(rangeLuckEntity);
 
             HistoryDbEntity historyDbEntity = new HistoryDbEntity();

@@ -1,27 +1,33 @@
 package project.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class RangeLuckEntity {
 
-    private String rangeInput, betInput;
-    private Integer[] range, bet;
+    private String rangeInput;
+    private String betInput;
+
+    @JsonIgnore
+    private  List<Integer> range;
+
+    @JsonIgnore
+    private  List<Integer>  bet;
 
     public RangeLuckEntity() {}
 
     public RangeLuckEntity(String rangeInput, String betInput) {
         this.rangeInput = rangeInput;
         this.betInput = betInput;
-        this.range = parseRange(rangeInput);
-        this.bet = parseRange(betInput);
     }
 
-    public Integer[] getRange() {
+    public  List<Integer> getRange() {
         return range;
     }
 
-    public Integer[] getBet() {
+    public  List<Integer>  getBet() {
         return bet;
     }
 
@@ -41,7 +47,15 @@ public class RangeLuckEntity {
         this.betInput = betInput;
     }
 
-    private Integer[] parseRange(String rangeString){
+    public void setRange() {
+        this.range = parseRange(rangeInput);
+    }
+
+    public void setBet() {
+        this.bet = parseRange(betInput);
+    }
+
+    private  List<Integer>  parseRange(String rangeString){
         char[] rangeChars = rangeString.toCharArray();
         List<Integer> range = new ArrayList<>();
         for (int i = 0; i < rangeChars.length; i++) {
@@ -54,12 +68,13 @@ public class RangeLuckEntity {
                 if (rangeChars[i] == ',')
                     range.add(first);
                 else{
+                    i++;
                     int second = 0;
                     while(i < rangeChars.length && rangeChars[i] >= '0' && rangeChars[i] <= '9'){
                         second = second * 10 + (rangeChars[i] - 48);
                         i++;
                     }
-                    while (first < second){
+                    while (first <= second){
                         range.add(first);
                         first++;
                     }
@@ -67,6 +82,6 @@ public class RangeLuckEntity {
             }
 
         }
-        return (Integer[])range.toArray();
+        return range;
     }
 }

@@ -6,6 +6,7 @@ import project.entity.TryLuckEntity;
 import project.entity.Type;
 import project.utils.RuletteNumList;
 
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Operator {
@@ -19,7 +20,7 @@ public class Operator {
         history.setRange(inputData.getRangeInput());
         history.setBet(inputData.getBetInput());
         history.setResultDegree(0.0);
-        history.setChoice(makeRandom(inputData.getRange()[0], inputData.getRange()[inputData.getRange().length - 1]));
+        history.setChoice(makeRandom(inputData.getRange().get(0), inputData.getRange().get(inputData.getRange().size() - 1)));
         history.setGame(checkWin(history.getChoice(), inputData.getBet()));
         return history;
     }
@@ -34,9 +35,9 @@ public class Operator {
         return history;
     }
 
-    private static boolean checkWin(int choice, Integer[] betRange){
-        for (int i = 0; i < betRange.length; i++) {
-            if (betRange[i].compareTo(choice) == 0)
+    private static boolean checkWin(int choice, List<Integer> betRange){
+        for (int i = 0; i < betRange.size(); i++) {
+            if (betRange.get(i).compareTo(choice) == 0)
                 return true;
         }
         return false;

@@ -26,8 +26,12 @@ public class HistoryService implements IHistoryService{
     @Transactional
     @Override
     public List<HistoryDbEntity> getSeveralLastHistory(String ipAddress){
-        if(ipAddress != null)
-            return historyRepository.findAllByIpEqualsOrderById(ipRepository.findByIp(ipAddress).getId());
-        return null;
+        IdIpEntity idIpEntity = ipRepository.findByIp(ipAddress);
+        if(idIpEntity == null){
+            idIpEntity = new IdIpEntity();
+            idIpEntity.setIp(ipAddress);
+            ipRepository.save(idIpEntity);
+        }
+        return historyRepository.findAllByIpEqualsOrderById(ipRepository.findByIp(ipAddress).getId());
     }
 }
