@@ -7,13 +7,13 @@ public class HistoryDto {
     private String bet;
     private String range;
     private int choice;
-    private boolean game;
+    private String game;
     private double resultDegree;
     private Color color;
 
     public HistoryDto(){}
 
-    public HistoryDto(String bet, String range, int choice, boolean game, Color color) {
+    public HistoryDto(String bet, String range, int choice, String game, Color color) {
         this.bet = bet;
         this.range = range;
         this.choice = choice;
@@ -49,11 +49,11 @@ public class HistoryDto {
         this.choice = choice;
     }
 
-    public boolean isGame() {
+    public String isGame() {
         return game;
     }
 
-    public void setGame(boolean game) {
+    public void setGame(String game) {
         this.game = game;
     }
 

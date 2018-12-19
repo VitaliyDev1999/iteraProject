@@ -23,7 +23,7 @@ public class StatisticService {
     @Autowired
     private StatisticRequestRepository statisticRequestRepository;
 
-    public List<Statistic> getStatistic(RangeStringEntity request, String ipAddress) {
+    public List<Statistic> getStatistic(RangeStringEntity request, String ipAddress) throws Exception {
         IdIpEntity idIpEntity = ipRepository.findByIp(ipAddress);
         if (idIpEntity == null) {
             idIpEntity = new IdIpEntity();

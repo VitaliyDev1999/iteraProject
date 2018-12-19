@@ -36,12 +36,12 @@ public class Operator {
         return history;
     }
 
-    private static boolean checkWin(int choice, List<Integer> betRange){
+    private static String  checkWin(int choice, List<Integer> betRange){
         for (int i = 0; i < betRange.size(); i++) {
             if (betRange.get(i).compareTo(choice) == 0)
-                return true;
+                return "Win";
         }
-        return false;
+        return "Lose";
     }
 
     private static void randomValueAndCalculateDegree(double angle, HistoryDto history) {
@@ -70,10 +70,10 @@ public class Operator {
                 bet += ", ";
         }
         history.setBet(bet);
-        history.setGame(false);
+        history.setGame("Lose");
         for (int i = 0; i < inputData.getValues().length; i++) {
             if (inputData.getValues()[i] == history.getChoice()) {
-                history.setGame(true);
+                history.setGame("Win");
                 return;
             }
         }
@@ -82,9 +82,9 @@ public class Operator {
     private static void checkColor(HistoryDto history, TryLuckEntity inputData) {
         history.setBet(inputData.getType().toString());
         if (inputData.getType().toString().compareTo(RuletteNumList.getNumber(history.getChoice()).getColor().toString()) == 0)
-            history.setGame(true);
+            history.setGame("Win");
         else
-            history.setGame(false);
+            history.setGame("Lose");
     }
 
     private static int makeRandom(int first, int second){

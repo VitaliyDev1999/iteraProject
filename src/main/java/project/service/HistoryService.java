@@ -39,7 +39,7 @@ public class HistoryService implements IHistoryService{
         List<HistoryDto> historyDtos = new ArrayList<>();
         for (HistoryDbEntity history:
              historyDbEntities) {
-            HistoryDto dto = new HistoryDto(history.getBet(), history.getRange(), Integer.parseInt(history.getResult()), history.isWin(), RuletteNumList.getNumber(Integer.parseInt(history.getResult())).getColor());
+            HistoryDto dto = new HistoryDto(history.getBet(), history.getRange(), Integer.parseInt(history.getResult()), history.isWin() ? "Win" : "Lose", RuletteNumList.getNumber(Integer.parseInt(history.getResult())).getColor());
             historyDtos.add(dto);
         }
         return historyDtos;
