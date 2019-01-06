@@ -1,4 +1,4 @@
-package project.service;
+package project.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +9,7 @@ import project.repository.HistoryRepository;
 import project.repository.IpRepository;
 import project.repository.StatisticRepository;
 import project.repository.StatisticRequestRepository;
+import project.service.RandomService;
 import project.utils.ParseRange;
 import project.utils.RuletteNumList;
 
