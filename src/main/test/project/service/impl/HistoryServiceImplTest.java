@@ -1,0 +1,78 @@
+package project.service.impl;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+import project.entity.HistoryDbEntity;
+import project.entity.HistoryDto;
+import project.entity.IdIpEntity;
+import project.repository.HistoryRepository;
+import project.repository.IpRepository;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.*;
+
+@RunWith(MockitoJUnitRunner.class)
+public class HistoryServiceImplTest {
+
+    private static final String TEST_IP = "000.000.000.000";
+    private static final String NOT_EXIST_IP = "777";
+    private static final Long TEST_ID = 99999L;
+    private static final IdIpEntity ID_IP_ENTITY = new IdIpEntity();
+    private static final HistoryDbEntity historyEntity = new HistoryDbEntity();
+
+    @InjectMocks
+    private HistoryServiceImpl historyService;
+
+    @Mock
+    private IpRepository ipRepository;
+
+    @Mock
+    private HistoryRepository historyRepository;
+
+    @Before
+    public void setUp() {
+        ID_IP_ENTITY.setIp(TEST_IP);
+        ID_IP_ENTITY.setId(TEST_ID);
+        historyEntity.setResult("0");
+        List<HistoryDbEntity> history = new ArrayList<>();
+        history.add(historyEntity);
+
+        when(ipRepository.findByIp(TEST_IP)).thenReturn(ID_IP_ENTITY);
+        when(ipRepository.save(any(IdIpEntity.class))).thenReturn(ID_IP_ENTITY);
+        when(historyRepository.findAllByIpEqualsOrderById(ID_IP_ENTITY.getId())).thenReturn(history);
+    }
+
+    @Test
+    public void getSeveralLastHistoryWithExistedIp() {
+        List<HistoryDto> result = historyService.getSeveralLastHistory(TEST_IP);
+
+        assertEquals(result.get(0).getChoice(), Integer.parseInt(historyEntity.getResult()));
+
+        verify(ipRepository, times(2)).findByIp(TEST_IP);
+        verify(ipRepository, never()).save(any(IdIpEntity.class));
+        verify(historyRepository).findAllByIpEqualsOrderById(ID_IP_ENTITY.getId());
+    }
+
+    @Test
+    public void getSeveralLastHistoryWithNotExistedIp() {
+        when(ipRepository.findByIp(NOT_EXIST_IP)).thenReturn(null);
+        when(ipRepository.findByIp(TEST_IP)).thenReturn(ID_IP_ENTITY);
+
+        List<HistoryDto> result = historyService.getSeveralLastHistory(NOT_EXIST_IP);
+
+        assertEquals(result.get(0).getChoice(), Integer.parseInt(historyEntity.getResult()));
+
+        verify(ipRepository).findByIp(NOT_EXIST_IP);
+        verify(ipRepository).findByIp(TEST_IP);
+        verify(ipRepository).save(any(IdIpEntity.class));
+        verify(historyRepository).findAllByIpEqualsOrderById(ID_IP_ENTITY.getId());
+    }
+}
