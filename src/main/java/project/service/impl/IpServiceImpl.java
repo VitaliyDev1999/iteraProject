@@ -20,8 +20,4 @@ public class IpServiceImpl implements IpService {
             ipRepository.save(idIpEntity);
         }
     }
-
-    public IdIpEntity getIP(String ipAdress){
-        return ipRepository.findByIp(ipAdress);
-    }
 }

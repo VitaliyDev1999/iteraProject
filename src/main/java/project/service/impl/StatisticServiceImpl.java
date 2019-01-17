@@ -2,13 +2,14 @@ package project.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import project.entity.*;
+import project.entity.IdIpEntity;
+import project.entity.RangeStringEntity;
+import project.entity.Statistic;
+import project.entity.StatisticRequest;
 import project.repository.IpRepository;
 import project.repository.StatisticRepository;
 import project.repository.StatisticRequestRepository;
 import project.service.StatisticService;
-import project.utils.ParseRange;
-import project.utils.RuletteNumList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ public class StatisticServiceImpl implements StatisticService {
             if (idIpEntity == null) {
                 idIpEntity = new IdIpEntity();
                 idIpEntity.setIp(ipAddress);
-                ipRepository.save(idIpEntity);
+                idIpEntity = ipRepository.save(idIpEntity);
             }
             StatisticRequest statisticRequest = statisticRequestRepository.findByIpEquals(idIpEntity.getId(), request.getRange());
             List<Statistic> statisticResult = new ArrayList<>();

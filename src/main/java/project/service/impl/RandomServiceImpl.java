@@ -13,7 +13,6 @@ import project.service.RandomService;
 import project.utils.ParseRange;
 import project.utils.RuletteNumList;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

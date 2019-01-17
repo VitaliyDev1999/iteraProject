@@ -23,10 +23,6 @@ public class HistoryServiceImpl implements HistoryService {
     @Autowired
     private HistoryRepository historyRepository;
 
-    public void saveHistory(HistoryDbEntity historyDbEntity){
-        historyRepository.save(historyDbEntity);
-    }
-
     @Transactional
     @Override
     public List<HistoryDto> getSeveralLastHistory(String ipAddress){
@@ -34,13 +30,14 @@ public class HistoryServiceImpl implements HistoryService {
         if(idIpEntity == null){
             idIpEntity = new IdIpEntity();
             idIpEntity.setIp(ipAddress);
-            ipRepository.save(idIpEntity);
+            idIpEntity = ipRepository.save(idIpEntity);
         }
-        List<HistoryDbEntity> historyDbEntities = historyRepository.findAllByIpEqualsOrderById(ipRepository.findByIp(ipAddress).getId());
+        List<HistoryDbEntity> historyDbEntities = historyRepository.findAllByIpEqualsOrderById(ipRepository.findByIp(idIpEntity.getIp()).getId());
         List<HistoryDto> historyDtos = new ArrayList<>();
-        for (HistoryDbEntity history:
-             historyDbEntities) {
-            HistoryDto dto = new HistoryDto(history.getBet(), history.getRange(), Integer.parseInt(history.getResult()), history.isWin() ? "Win" : "Lose", RuletteNumList.getNumber(Integer.parseInt(history.getResult())).getColor());
+        for (HistoryDbEntity history : historyDbEntities) {
+            HistoryDto dto = new HistoryDto(history.getBet(), history.getRange(),
+                    Integer.parseInt(history.getResult()), history.isWin() ? "Win" : "Lose",
+                    RuletteNumList.getNumber(Integer.parseInt(history.getResult())).getColor());
             historyDtos.add(dto);
         }
         return historyDtos;
