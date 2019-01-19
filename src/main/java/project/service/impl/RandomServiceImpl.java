@@ -58,7 +58,7 @@ public class RandomServiceImpl implements RandomService {
 
     @Transactional
     @Override
-    public HistoryDto getLuckyTry(String ipAddress, RangeLuckEntity rangeLuckEntity) {
+    public HistoryDto getLuckyTryRange(String ipAddress, RangeLuckEntity rangeLuckEntity) {
         if (ipAddress != null) {
             IdIpEntity idIpEntity = findOrSaveIpEntity(ipAddress);
 

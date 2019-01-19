@@ -7,5 +7,5 @@ import project.entity.TryLuckEntity;
 public interface RandomService {
     HistoryDto getLuckyTry(String ipAddress, TryLuckEntity entity);
 
-    HistoryDto getLuckyTry(String ipAddress, RangeLuckEntity entity);
+    HistoryDto getLuckyTryRange(String ipAddress, RangeLuckEntity entity);
 }
