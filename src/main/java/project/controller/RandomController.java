@@ -29,8 +29,7 @@ public class RandomController {
 
     @GetMapping(value = "/history")
     public List<HistoryDto> getHistory(HttpServletRequest request) {
-        ipService.saveIp(request.getRemoteAddr());
-        return historyService.getSeveralLastHistory(request.getRemoteAddr());
+        return historyService.getSeveralLastHistory(ipService.saveIp(request.getRemoteAddr()).getIp());
     }
 
     @PostMapping(value = "/bets/range")

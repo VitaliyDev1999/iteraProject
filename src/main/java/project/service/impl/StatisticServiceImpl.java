@@ -28,18 +28,24 @@ public class StatisticServiceImpl implements StatisticService {
 
     public List<Statistic> getStatistic(RangeStringEntity request, String ipAddress) {
         if(ipAddress != null) {
-            IdIpEntity idIpEntity = ipRepository.findByIp(ipAddress);
-            if (idIpEntity == null) {
-                idIpEntity = new IdIpEntity();
-                idIpEntity.setIp(ipAddress);
-                idIpEntity = ipRepository.save(idIpEntity);
-            }
-            StatisticRequest statisticRequest = statisticRequestRepository.findByIpEquals(idIpEntity.getId(), request.getRange());
+            IdIpEntity idIpEntity = findOrSaveIpEntity(ipAddress);
+            StatisticRequest statisticRequest =
+                    statisticRequestRepository.findByIpEquals(idIpEntity.getId(), request.getRange());
             List<Statistic> statisticResult = new ArrayList<>();
             statisticResult.add(statisticRepository.findAllByIdMax(statisticRequest.getId()));
             statisticResult.add(statisticRepository.findAllByIdMin(statisticRequest.getId()));
             return statisticResult;
         }
         return null;
+    }
+
+    private IdIpEntity findOrSaveIpEntity(String ipAddress) {
+        IdIpEntity idIpEntity = ipRepository.findByIp(ipAddress);
+        if (idIpEntity == null) {
+            idIpEntity = new IdIpEntity();
+            idIpEntity.setIp(ipAddress);
+            idIpEntity = ipRepository.save(idIpEntity);
+        }
+        return idIpEntity;
     }
 }

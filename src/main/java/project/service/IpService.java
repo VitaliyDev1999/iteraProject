@@ -1,5 +1,7 @@
 package project.service;
 
+import project.entity.IdIpEntity;
+
 public interface IpService {
-    void saveIp(String ipAddress);
+    IdIpEntity saveIp(String ipAddress);
 }

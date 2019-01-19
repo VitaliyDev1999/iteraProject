@@ -18,6 +18,10 @@ import java.util.List;
 @Service
 public class RandomServiceImpl implements RandomService {
 
+    private static final String ROULETTE_STRING = "Roulette";
+    private static final String WIN = "Win";
+    private static final String RANGE = "0-36";
+
     @Autowired
     private IpRepository ipRepository;
 
@@ -34,31 +38,20 @@ public class RandomServiceImpl implements RandomService {
     @Override
     public HistoryDto getLuckyTry(String ipAddress, TryLuckEntity entity) {
         if (ipAddress != null) {
-            IdIpEntity idIpEntity = ipRepository.findByIp(ipAddress);
-            if (idIpEntity == null) {
-                idIpEntity = new IdIpEntity();
-                idIpEntity.setIp(ipAddress);
-                ipRepository.save(idIpEntity);
-            }
+            IdIpEntity idIpEntity = findOrSaveIpEntity(ipAddress);
             HistoryDto historyDto = Operator.checkWinReturnHistoryRoulette(entity);
 
             HistoryDbEntity historyDbEntity = new HistoryDbEntity();
 
             historyDbEntity.setIp(idIpEntity);
-            historyDbEntity.setRange("Roulette");
-            historyDbEntity.setWin(historyDto.getGame().compareTo("Win") == 0 ? true : false);
+            historyDbEntity.setRange(ROULETTE_STRING);
+            historyDbEntity.setWin(historyDto.getGame().compareTo(WIN) == 0);
             historyDbEntity.setType(entity.getType().toString());
             historyDbEntity.setResult(Integer.toString(historyDto.getChoice()));
             historyDbEntity.setBet(historyDto.getBet());
-            historyDto.setRange("Roulette");
+            historyDto.setRange(ROULETTE_STRING);
 
-            historyRepository.save(historyDbEntity);
-
-            createStatistic(idIpEntity, new RangeStringEntity(historyDto.getRange()));
-
-            addRandomAndUpdateStatistic(historyDto.getChoice(), idIpEntity, new RangeStringEntity(historyDto.getRange()));
-
-            return historyDto;
+            return processHistoryAndStatistic(idIpEntity, historyDto, historyDbEntity);
         }
         return null;
     }
@@ -67,32 +60,22 @@ public class RandomServiceImpl implements RandomService {
     @Override
     public HistoryDto getLuckyTry(String ipAddress, RangeLuckEntity rangeLuckEntity) {
         if (ipAddress != null) {
-            IdIpEntity idIpEntity = ipRepository.findByIp(ipAddress);
-            if (idIpEntity == null) {
-                idIpEntity = new IdIpEntity();
-                idIpEntity.setIp(ipAddress);
-                ipRepository.save(idIpEntity);
-            }
+            IdIpEntity idIpEntity = findOrSaveIpEntity(ipAddress);
+
             rangeLuckEntity.setBet();
             rangeLuckEntity.setRange();
-            HistoryDto historyDto = Operator.checkWinReturnHistoryRange(rangeLuckEntity);
 
+            HistoryDto historyDto = Operator.checkWinReturnHistoryRange(rangeLuckEntity);
             HistoryDbEntity historyDbEntity = new HistoryDbEntity();
 
             historyDbEntity.setIp(idIpEntity);
             historyDbEntity.setRange(historyDto.getRange());
-            historyDbEntity.setWin(historyDto.getGame().compareTo("Win") == 0 ? true : false);
+            historyDbEntity.setWin(historyDto.getGame().compareTo(WIN) == 0);
             historyDbEntity.setType(Type.RANGE.toString());
             historyDbEntity.setResult(Integer.toString(historyDto.getChoice()));
             historyDbEntity.setBet(historyDto.getBet());
 
-            historyRepository.save(historyDbEntity);
-
-            createStatistic(idIpEntity, new RangeStringEntity(historyDto.getRange()));
-
-            addRandomAndUpdateStatistic(historyDto.getChoice(), idIpEntity, new RangeStringEntity(historyDto.getRange()));
-
-            return historyDto;
+            return processHistoryAndStatistic(idIpEntity, historyDto, historyDbEntity);
         }
         return null;
     }
@@ -106,15 +89,12 @@ public class RandomServiceImpl implements RandomService {
             statisticRequest.setCount(RuletteNumList.randomCount);
             statisticRequest.setRange(request.getRange());
             statisticRequestRepository.save(statisticRequest);
-            if (statisticRequest.getRange().compareTo("Roulette") == 0)
-                statistics = ParseRange.fillStatistic(ParseRange.parseRange("0-36"), statisticRequest);
+            if (statisticRequest.getRange().compareTo(ROULETTE_STRING) == 0)
+                statistics = ParseRange.fillStatistic(ParseRange.parseRange(RANGE), statisticRequest);
             else
                 statistics = ParseRange.fillStatistic(ParseRange.parseRange(statisticRequest.getRange()), statisticRequest);
             RuletteNumList.randomNumbersInRange(statistics);
-            for (Statistic statistic :
-                    statistics) {
-                statisticRepository.save(statistic);
-            }
+            statisticRepository.save(statistics);
         }
     }
 
@@ -128,11 +108,30 @@ public class RandomServiceImpl implements RandomService {
                 statistics.get(j).setCount(statistics.get(j).getCount() + 1);
                 j = statistics.size();
             }
-            for (Statistic statistic :
-                    statistics) {
+            for (Statistic statistic : statistics) {
                 statistic.calculatePercent(statisticRequest.getCount());
                 statisticRepository.save(statistic);
             }
         }
+    }
+
+    private HistoryDto processHistoryAndStatistic(IdIpEntity idIpEntity, HistoryDto historyDto, HistoryDbEntity historyDbEntity) {
+        historyRepository.save(historyDbEntity);
+
+        createStatistic(idIpEntity, new RangeStringEntity(historyDto.getRange()));
+
+        addRandomAndUpdateStatistic(historyDto.getChoice(), idIpEntity, new RangeStringEntity(historyDto.getRange()));
+
+        return historyDto;
+    }
+
+    private IdIpEntity findOrSaveIpEntity(String ipAddress) {
+        IdIpEntity idIpEntity = ipRepository.findByIp(ipAddress);
+        if (idIpEntity == null) {
+            idIpEntity = new IdIpEntity();
+            idIpEntity.setIp(ipAddress);
+            idIpEntity = ipRepository.save(idIpEntity);
+        }
+        return idIpEntity;
     }
 }

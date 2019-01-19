@@ -12,12 +12,13 @@ public class IpServiceImpl implements IpService {
     @Autowired
     private IpRepository ipRepository;
 
-    public void saveIp(String ipAddress){
+    public IdIpEntity saveIp(String ipAddress){
         IdIpEntity idIpEntity = ipRepository.findByIp(ipAddress);
         if(idIpEntity == null){
             idIpEntity = new IdIpEntity();
             idIpEntity.setIp(ipAddress);
-            ipRepository.save(idIpEntity);
+            idIpEntity = ipRepository.save(idIpEntity);
         }
+        return idIpEntity;
     }
 }
