@@ -20,6 +20,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -28,7 +29,7 @@ public class StatisticServiceImplTest {
     private static final String TEST_IP = "000.000.000.000";
     private static final Long TEST_ID = 99999L;
     private static final IdIpEntity ID_IP_ENTITY = new IdIpEntity();
-    private static final IdIpEntity NEW_IP = new IdIpEntity();
+    private static final IdIpEntity NEW_IP_ENTITY = new IdIpEntity();
     private static final RangeStringEntity REQUEST = new RangeStringEntity("0-100");
     private static final StatisticRequest RESULT_REQUEST = new StatisticRequest();
     private static final Statistic MAX_STATISTIC = new Statistic();
@@ -48,7 +49,7 @@ public class StatisticServiceImplTest {
     private StatisticRequestRepository statisticRequestRepository;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MAX_STATISTIC.setPercent(100.00);
         MIN_STATISTIC.setPercent(0.00);
         ID_IP_ENTITY.setIp(TEST_IP);
@@ -64,7 +65,7 @@ public class StatisticServiceImplTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         resultList = new ArrayList<>();
     }
 
@@ -87,11 +88,12 @@ public class StatisticServiceImplTest {
     @Test
     public void getStatisticResultWithNewIp() {
 
-        NEW_IP.setIp("1.1.1.1");
+        NEW_IP_ENTITY.setIp("1.1.1.1");
+        NEW_IP_ENTITY.setId(7777L);
 
         when(ipRepository.findByIp("1.1.1.1")).thenReturn(null);
-        when(ipRepository.save(NEW_IP)).thenReturn(NEW_IP);
-        when(statisticRequestRepository.findByIpEquals(NEW_IP.getId(), REQUEST.getRange())).thenReturn(RESULT_REQUEST);
+        when(ipRepository.save(any(IdIpEntity.class))).thenReturn(NEW_IP_ENTITY);
+        when(statisticRequestRepository.findByIpEquals(NEW_IP_ENTITY.getId(), REQUEST.getRange())).thenReturn(RESULT_REQUEST);
 
         List<Statistic> actualList = statisticService.getStatistic(REQUEST, "1.1.1.1");
 
