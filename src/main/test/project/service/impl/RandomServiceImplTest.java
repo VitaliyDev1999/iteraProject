@@ -146,6 +146,9 @@ public class RandomServiceImplTest {
         HistoryDto result = randomService.getLuckyTryRange(null, null);
 
         assertNull(result);
+
+        verify(ipRepository, never()).save(any(IdIpEntity.class));
+        verify(ipRepository, never()).findByIp(anyString());
     }
 
     @Test
