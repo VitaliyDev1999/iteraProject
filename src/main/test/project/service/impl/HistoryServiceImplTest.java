@@ -54,7 +54,7 @@ public class HistoryServiceImplTest {
     public void getSeveralLastHistoryWithExistedIp() {
         List<HistoryDto> result = historyService.getSeveralLastHistory(TEST_IP);
 
-        assertEquals(result.get(0).getChoice(), Integer.parseInt(historyEntity.getResult()));
+        assertEquals(Integer.parseInt(historyEntity.getResult()), result.get(0).getChoice());
 
         verify(ipRepository, times(2)).findByIp(TEST_IP);
         verify(ipRepository, never()).save(any(IdIpEntity.class));
@@ -68,7 +68,7 @@ public class HistoryServiceImplTest {
 
         List<HistoryDto> result = historyService.getSeveralLastHistory(NOT_EXIST_IP);
 
-        assertEquals(result.get(0).getChoice(), Integer.parseInt(historyEntity.getResult()));
+        assertEquals(Integer.parseInt(historyEntity.getResult()), result.get(0).getChoice());
 
         verify(ipRepository).findByIp(NOT_EXIST_IP);
         verify(ipRepository).findByIp(TEST_IP);

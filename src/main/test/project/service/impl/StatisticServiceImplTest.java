@@ -61,7 +61,7 @@ public class StatisticServiceImplTest {
         when(ipRepository.findByIp(TEST_IP)).thenReturn(ID_IP_ENTITY);
         when(statisticRepository.findAllByIdMax(RESULT_REQUEST.getId())).thenReturn(MAX_STATISTIC);
         when(statisticRepository.findAllByIdMin(RESULT_REQUEST.getId())).thenReturn(MIN_STATISTIC);
-        when(statisticRequestRepository.findByIpEquals(ID_IP_ENTITY.getId(), REQUEST.getRange())).thenReturn(RESULT_REQUEST);
+        when(statisticRequestRepository.findByIdEquals(ID_IP_ENTITY.getId(), REQUEST.getRange())).thenReturn(RESULT_REQUEST);
     }
 
     @After
@@ -73,9 +73,9 @@ public class StatisticServiceImplTest {
     public void getStatisticResult() {
         List<Statistic> actualList = statisticService.getStatistic(REQUEST, TEST_IP);
 
-        assertEquals(actualList.get(0).getPercent(), MAX_STATISTIC.getPercent());
-        assertEquals(actualList.get(1).getPercent(), MIN_STATISTIC.getPercent());
-        assertEquals(actualList.size(), resultList.size());
+        assertEquals(MAX_STATISTIC.getPercent(), actualList.get(0).getPercent());
+        assertEquals(MIN_STATISTIC.getPercent(), actualList.get(1).getPercent());
+        assertEquals(resultList.size(), actualList.size());
 
     }
 
@@ -93,11 +93,11 @@ public class StatisticServiceImplTest {
 
         when(ipRepository.findByIp("1.1.1.1")).thenReturn(null);
         when(ipRepository.save(any(IdIpEntity.class))).thenReturn(NEW_IP_ENTITY);
-        when(statisticRequestRepository.findByIpEquals(NEW_IP_ENTITY.getId(), REQUEST.getRange())).thenReturn(RESULT_REQUEST);
+        when(statisticRequestRepository.findByIdEquals(NEW_IP_ENTITY.getId(), REQUEST.getRange())).thenReturn(RESULT_REQUEST);
 
         List<Statistic> actualList = statisticService.getStatistic(REQUEST, "1.1.1.1");
 
-        assertEquals(actualList.size(), resultList.size());
+        assertEquals(resultList.size(), actualList.size());
     }
 
 }

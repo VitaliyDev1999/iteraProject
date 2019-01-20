@@ -80,28 +80,28 @@ public class RandomServiceImpl implements RandomService {
         return null;
     }
 
-    private void createStatistic(IdIpEntity idIpEntity, RangeStringEntity request) {
-        StatisticRequest statisticRequest = statisticRequestRepository.findByIpEquals(idIpEntity.getId(), request.getRange());
+    private StatisticRequest createStatistic(IdIpEntity idIpEntity, RangeStringEntity request) {
+        StatisticRequest statisticRequest = statisticRequestRepository.findByIdEquals(idIpEntity.getId(), request.getRange());
         if (statisticRequest == null) {
             List<Statistic> statistics;
             statisticRequest = new StatisticRequest();
             statisticRequest.setIp(idIpEntity);
             statisticRequest.setCount(RuletteNumList.randomCount);
             statisticRequest.setRange(request.getRange());
-            statisticRequestRepository.save(statisticRequest);
-            if (statisticRequest.getRange().compareTo(ROULETTE_STRING) == 0)
+            statisticRequest = statisticRequestRepository.save(statisticRequest);
+            if (statisticRequest.getRange().compareTo(ROULETTE_STRING) == 0){
                 statistics = ParseRange.fillStatistic(ParseRange.parseRange(RANGE), statisticRequest);
-            else
+            } else {
                 statistics = ParseRange.fillStatistic(ParseRange.parseRange(statisticRequest.getRange()), statisticRequest);
+            }
             RuletteNumList.randomNumbersInRange(statistics);
             statisticRepository.save(statistics);
         }
+        return statisticRequest;
     }
 
-    private void addRandomAndUpdateStatistic(Integer newNumber, IdIpEntity idIpEntity, RangeStringEntity request) {
-        StatisticRequest statisticRequest = statisticRequestRepository.findByIpEquals(idIpEntity.getId(), request.getRange());
-        List<Statistic> statistics;
-        statistics = statisticRepository.findAllByIpAndStatisticRequest(statisticRequest.getId());
+    private void addRandomAndUpdateStatistic(Integer newNumber, IdIpEntity idIpEntity, RangeStringEntity request, StatisticRequest statisticRequest) {
+        List<Statistic> statistics = statisticRepository.findAllByIpAndStatisticRequest(statisticRequest.getId());
         statisticRequest.setCount(statisticRequest.getCount() + 1);
         for (int j = 0; j < statistics.size(); j++) {
             if (statistics.get(j).getValue().compareTo(newNumber) == 0) {
@@ -116,12 +116,11 @@ public class RandomServiceImpl implements RandomService {
     }
 
     private HistoryDto processHistoryAndStatistic(IdIpEntity idIpEntity, HistoryDto historyDto, HistoryDbEntity historyDbEntity) {
+        RangeStringEntity rangeStringEntity = new RangeStringEntity(historyDto.getRange());
+
         historyRepository.save(historyDbEntity);
-
-        createStatistic(idIpEntity, new RangeStringEntity(historyDto.getRange()));
-
-        addRandomAndUpdateStatistic(historyDto.getChoice(), idIpEntity, new RangeStringEntity(historyDto.getRange()));
-
+        StatisticRequest statisticRequest = createStatistic(idIpEntity,rangeStringEntity);
+        addRandomAndUpdateStatistic(historyDto.getChoice(), idIpEntity, rangeStringEntity, statisticRequest);
         return historyDto;
     }
 
