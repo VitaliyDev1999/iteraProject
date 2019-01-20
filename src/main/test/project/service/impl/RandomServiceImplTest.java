@@ -139,6 +139,8 @@ public class RandomServiceImplTest {
 
         assertEquals(VALUES_STRING, resultDto.getBet());
         verify(ipRepository, never()).save(ID_IP_ENTITY);
+        verify(statisticRequestRepository).findByIdEquals(ID_IP_ENTITY.getId(), ROULETTE_STRING);
+        verify(statisticRequestRepository).save(any(StatisticRequest.class));
     }
 
     @Test
@@ -146,6 +148,9 @@ public class RandomServiceImplTest {
         HistoryDto result = randomService.getLuckyTryRange(null, null);
 
         assertNull(result);
+
+        verify(ipRepository, never()).save(any(IdIpEntity.class));
+        verify(ipRepository, never()).findByIp(anyString());
     }
 
     @Test

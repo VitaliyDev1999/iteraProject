@@ -100,7 +100,7 @@ public class RandomServiceImpl implements RandomService {
         return statisticRequest;
     }
 
-    private void addRandomAndUpdateStatistic(Integer newNumber, IdIpEntity idIpEntity, RangeStringEntity request, StatisticRequest statisticRequest) {
+    private void addRandomAndUpdateStatistic(Integer newNumber, StatisticRequest statisticRequest) {
         List<Statistic> statistics = statisticRepository.findAllByIpAndStatisticRequest(statisticRequest.getId());
         statisticRequest.setCount(statisticRequest.getCount() + 1);
         for (int j = 0; j < statistics.size(); j++) {
@@ -120,7 +120,7 @@ public class RandomServiceImpl implements RandomService {
 
         historyRepository.save(historyDbEntity);
         StatisticRequest statisticRequest = createStatistic(idIpEntity,rangeStringEntity);
-        addRandomAndUpdateStatistic(historyDto.getChoice(), idIpEntity, rangeStringEntity, statisticRequest);
+        addRandomAndUpdateStatistic(historyDto.getChoice(), statisticRequest);
         return historyDto;
     }
 
