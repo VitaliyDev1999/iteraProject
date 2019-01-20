@@ -139,6 +139,8 @@ public class RandomServiceImplTest {
 
         assertEquals(VALUES_STRING, resultDto.getBet());
         verify(ipRepository, never()).save(ID_IP_ENTITY);
+        verify(statisticRequestRepository).findByIdEquals(ID_IP_ENTITY.getId(), ROULETTE_STRING);
+        verify(statisticRequestRepository).save(any(StatisticRequest.class));
     }
 
     @Test
