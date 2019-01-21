@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface StatisticService {
     List<Statistic> getStatistic(RangeStringEntity request, String ipAddress);
+
+    List<Statistic> getSeveralLastStatistic(String ipAddress);
 }

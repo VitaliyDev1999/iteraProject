@@ -17,6 +17,8 @@ import java.util.List;
 @Service
 public class StatisticServiceImpl implements StatisticService {
 
+    private static final String ROULETTE_RANGE = "Roulette";
+
     @Autowired
     private IpRepository ipRepository;
 
@@ -25,6 +27,19 @@ public class StatisticServiceImpl implements StatisticService {
 
     @Autowired
     private StatisticRequestRepository statisticRequestRepository;
+
+    public List<Statistic> getSeveralLastStatistic(String ipAddress){
+        if(ipAddress != null) {
+            IdIpEntity idIpEntity = findOrSaveIpEntity(ipAddress);
+            StatisticRequest statisticRequest =
+                    statisticRequestRepository.findByIdEquals(idIpEntity.getId(), ROULETTE_RANGE);
+            List<Statistic> statisticResult = new ArrayList<>();
+            statisticResult.add(statisticRepository.findAllByIdMax(statisticRequest.getId()));
+            statisticResult.add(statisticRepository.findAllByIdMin(statisticRequest.getId()));
+            return statisticResult;
+        }
+        return null;
+    }
 
     public List<Statistic> getStatistic(RangeStringEntity request, String ipAddress) {
         if(ipAddress != null) {
