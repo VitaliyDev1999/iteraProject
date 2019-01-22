@@ -11,7 +11,7 @@ import project.repository.StatisticRepository;
 import project.repository.StatisticRequestRepository;
 import project.service.RandomService;
 import project.utils.ParseRange;
-import project.utils.RuletteNumList;
+import project.utils.RouletteNumList;
 
 import java.util.List;
 
@@ -86,7 +86,7 @@ public class RandomServiceImpl implements RandomService {
             List<Statistic> statistics;
             statisticRequest = new StatisticRequest();
             statisticRequest.setIp(idIpEntity);
-            statisticRequest.setCount(RuletteNumList.randomCount);
+            statisticRequest.setCount(RouletteNumList.randomCount);
             statisticRequest.setRange(request.getRange());
             statisticRequest = statisticRequestRepository.save(statisticRequest);
             if (statisticRequest.getRange().compareTo(ROULETTE_STRING) == 0){
@@ -94,7 +94,7 @@ public class RandomServiceImpl implements RandomService {
             } else {
                 statistics = ParseRange.fillStatistic(ParseRange.parseRange(statisticRequest.getRange()), statisticRequest);
             }
-            RuletteNumList.randomNumbersInRange(statistics);
+            RouletteNumList.randomNumbersInRange(statistics);
             statisticRepository.save(statistics);
         }
         return statisticRequest;

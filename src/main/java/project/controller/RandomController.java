@@ -3,6 +3,9 @@ package project.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import project.entity.*;
+import project.exception.EqualNumbersForRangeException;
+import project.exception.NumberAreNotSuitableForRouletteException;
+import project.exception.SecondRangeIsOutOfFirstBoundException;
 import project.service.HistoryService;
 import project.service.IpService;
 import project.service.RandomService;
@@ -39,11 +42,24 @@ public class RandomController {
 
     @PostMapping(value = "/bets/range")
     public HistoryDto getRangeNumber(@RequestBody RangeLuckEntity rangeLuckEntity, HttpServletRequest request) {
+        rangeLuckEntity.setRange();
+        rangeLuckEntity.setBet();
+        if (rangeLuckEntity.getRange().size() == 1)
+            throw new EqualNumbersForRangeException("Numbers in range are equal!");
+        if (rangeLuckEntity.getRange().get(0).intValue() > rangeLuckEntity.getBet().get(0).intValue() ||
+            rangeLuckEntity.getRange().get(rangeLuckEntity.getRange().size() - 1).intValue() <
+                    rangeLuckEntity.getBet().get(rangeLuckEntity.getBet().size() - 1).intValue())
+            throw new SecondRangeIsOutOfFirstBoundException("Your bet is out of range!");
         return randomService.getLuckyTryRange(request.getRemoteAddr(), rangeLuckEntity);
     }
 
     @PostMapping(value = "/bets/roulette")
     public HistoryDto getRouletteNumber(@RequestBody TryLuckEntity tryLuckEntity, HttpServletRequest request) {
+        for (int num:
+             tryLuckEntity.getValues()) {
+            if (num < 0 || num > 36)
+                throw new NumberAreNotSuitableForRouletteException("Roulette operate only with 0-36 values!");
+        }
         return randomService.getLuckyTry(request.getRemoteAddr(), tryLuckEntity);
     }
 

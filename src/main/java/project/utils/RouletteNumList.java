@@ -6,7 +6,7 @@ import project.entity.Statistic;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class RuletteNumList {
+public class RouletteNumList {
 
     public static final int randomCount = 10000;
 
@@ -63,7 +63,7 @@ public class RuletteNumList {
 
     public static void randomNumbersInRange(List<Statistic> statistics){
         for (int i = 0; i < randomCount; i++) {
-            int number = ThreadLocalRandom.current().nextInt(statistics.get(0).getValue(), statistics.get(statistics.size() - 1).getValue());
+            int number = ThreadLocalRandom.current().nextInt(statistics.get(0).getValue(), statistics.get(statistics.size() - 1).getValue() + 1);
             for (int j = 0; j < statistics.size(); j++) {
                 if (statistics.get(j).getValue().compareTo(number) == 0){
                     statistics.get(j).setCount(statistics.get(j).getCount() + 1);

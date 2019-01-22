@@ -9,7 +9,7 @@ import project.entity.IdIpEntity;
 import project.repository.HistoryRepository;
 import project.repository.IpRepository;
 import project.service.HistoryService;
-import project.utils.RuletteNumList;
+import project.utils.RouletteNumList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +35,7 @@ public class HistoryServiceImpl implements HistoryService {
         for (HistoryDbEntity history : historyDbEntities) {
             HistoryDto dto = new HistoryDto(history.getBet(), history.getRange(),
                     Integer.parseInt(history.getResult()), history.isWin() ? WIN : LOSE,
-                    RuletteNumList.getNumber(Integer.parseInt(history.getResult())).getColor());
+                    RouletteNumList.getNumber(Integer.parseInt(history.getResult())).getColor());
             historyDtos.add(dto);
         }
         return historyDtos;

@@ -15,7 +15,7 @@ public class RangeLuckEntity {
     private  List<Integer> range;
 
     @JsonIgnore
-    private  List<Integer>  bet;
+    private  List<Integer> bet;
 
     public RangeLuckEntity() {}
 

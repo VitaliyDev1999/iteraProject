@@ -4,7 +4,7 @@ import project.entity.HistoryDto;
 import project.entity.RangeLuckEntity;
 import project.entity.TryLuckEntity;
 import project.entity.Type;
-import project.utils.RuletteNumList;
+import project.utils.RouletteNumList;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -22,7 +22,7 @@ public class Operator {
         history.setResultDegree(0.0);
         history.setChoice(makeRandomInt(inputData.getRange().get(0), inputData.getRange().get(inputData.getRange().size() - 1)));
         history.setGame(checkWin(history.getChoice(), inputData.getBet()));
-        history.setColor(RuletteNumList.getNumber(history.getChoice()).getColor());
+        history.setColor(Color.GREEN);
         return history;
     }
 
@@ -47,19 +47,19 @@ public class Operator {
     private static void randomValueAndCalculateDegree(double angle, HistoryDto history) {
         history.setChoice(ThreadLocalRandom.current().nextInt(0, 37));
         double numberAngle;
-        if (RuletteNumList.getNumber(history.getChoice()).getStartAngle() > RuletteNumList.getNumber(history.getChoice()).getEndAngle())
-            numberAngle = roundNumber(ThreadLocalRandom.current().nextDouble(RuletteNumList.getNumber(history.getChoice()).getStartAngle(),
-                    360.0 + RuletteNumList.getNumber(history.getChoice()).getEndAngle()));
+        if (RouletteNumList.getNumber(history.getChoice()).getStartAngle() > RouletteNumList.getNumber(history.getChoice()).getEndAngle())
+            numberAngle = roundNumber(ThreadLocalRandom.current().nextDouble(RouletteNumList.getNumber(history.getChoice()).getStartAngle(),
+                    360.0 + RouletteNumList.getNumber(history.getChoice()).getEndAngle()));
         else
-            numberAngle = roundNumber(ThreadLocalRandom.current().nextDouble(RuletteNumList.getNumber(history.getChoice()).getStartAngle(),
-                    RuletteNumList.getNumber(history.getChoice()).getEndAngle()));
+            numberAngle = roundNumber(ThreadLocalRandom.current().nextDouble(RouletteNumList.getNumber(history.getChoice()).getStartAngle(),
+                    RouletteNumList.getNumber(history.getChoice()).getEndAngle()));
         if (numberAngle > 360.0)
             numberAngle -= 360.0;
         if (numberAngle - angle > 0.0)
             history.setResultDegree(numberAngle - angle);
         else
             history.setResultDegree(360.0 + numberAngle - angle);
-        history.setColor(RuletteNumList.getNumber(history.getChoice()).getColor());
+        history.setColor(RouletteNumList.getNumber(history.getChoice()).getColor());
     }
 
     private static void checkNumbers(HistoryDto history, TryLuckEntity inputData) {
@@ -81,7 +81,7 @@ public class Operator {
 
     private static void checkColor(HistoryDto history, TryLuckEntity inputData) {
         history.setBet(inputData.getType().toString());
-        if (inputData.getType().toString().compareTo(RuletteNumList.getNumber(history.getChoice()).getColor().toString()) == 0)
+        if (inputData.getType().toString().compareTo(RouletteNumList.getNumber(history.getChoice()).getColor().toString()) == 0)
             history.setGame("Win");
         else
             history.setGame("Lose");

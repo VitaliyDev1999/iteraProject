@@ -12,22 +12,22 @@ import project.exception.SecondRangeIsOutOfFirstBoundException;
 @ControllerAdvice
 public class MainExceptionHandler {
 
-    @ExceptionHandler
+    @ExceptionHandler(EqualNumbersForRangeException.class)
     public ResponseEntity<ErrorResponseDto> handleExceptionOfEqualNumbersException(EqualNumbersForRangeException exc) {
         return getResponseBadRequest(exc);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(NumberAreNotSuitableForRouletteException.class)
     public ResponseEntity<ErrorResponseDto> handleExceptionOfEqualNumbersException(NumberAreNotSuitableForRouletteException exc) {
         return getResponseBadRequest(exc);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(SecondRangeIsOutOfFirstBoundException.class)
     public ResponseEntity<ErrorResponseDto> handleExceptionOfEqualNumbersException(SecondRangeIsOutOfFirstBoundException exc) {
         return getResponseBadRequest(exc);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseDto> handleExceptionOfEqualNumbersException(Exception exc) {
         return getResponseBadRequest(exc);
     }
