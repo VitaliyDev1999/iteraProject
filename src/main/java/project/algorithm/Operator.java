@@ -20,7 +20,7 @@ public class Operator {
         history.setRange(inputData.getRangeInput());
         history.setBet(inputData.getBetInput());
         history.setResultDegree(0.0);
-        history.setChoice(makeRandom(inputData.getRange().get(0), inputData.getRange().get(inputData.getRange().size() - 1)));
+        history.setChoice(makeRandomInt(inputData.getRange().get(0), inputData.getRange().get(inputData.getRange().size() - 1)));
         history.setGame(checkWin(history.getChoice(), inputData.getBet()));
         history.setColor(RuletteNumList.getNumber(history.getChoice()).getColor());
         return history;
@@ -87,8 +87,8 @@ public class Operator {
             history.setGame("Lose");
     }
 
-    private static int makeRandom(int first, int second){
-        return ThreadLocalRandom.current().nextInt(0, 37);
+    private static int makeRandomInt(int first, int second){
+        return ThreadLocalRandom.current().nextInt(first, second + 1);
     }
 
 }
