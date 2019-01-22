@@ -32,11 +32,11 @@ public class RandomController {
         return historyService.getSeveralLastHistory(ipService.saveIp(request.getRemoteAddr()).getIp());
     }
 
-    @GetMapping(value = "/statistic/roulette")
+  /*  @GetMapping(value = "/statistic")
     public List<Statistic> getStatistic(HttpServletRequest request) {
-        return statisticService.getSeveralLastStatistic(request.getRemoteAddr());
+        return statisticService.getStatistic(request.getRemoteAddr());
     }
-
+*/
     @PostMapping(value = "/bets/range")
     public HistoryDto getRangeNumber(@RequestBody RangeLuckEntity rangeLuckEntity, HttpServletRequest request) {
         return randomService.getLuckyTryRange(request.getRemoteAddr(), rangeLuckEntity);
@@ -45,11 +45,6 @@ public class RandomController {
     @PostMapping(value = "/bets/roulette")
     public HistoryDto getRouletteNumber(@RequestBody TryLuckEntity tryLuckEntity, HttpServletRequest request) {
         return randomService.getLuckyTry(request.getRemoteAddr(), tryLuckEntity);
-    }
-
-    @PostMapping(value = "/statistic/range")
-    public List<Statistic> getStatistic(@RequestBody RangeStringEntity rangeStringEntity, HttpServletRequest request) {
-        return statisticService.getStatistic(rangeStringEntity, request.getRemoteAddr());
     }
 
 }
