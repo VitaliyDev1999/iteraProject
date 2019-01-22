@@ -32,11 +32,11 @@ public class RandomController {
         return historyService.getSeveralLastHistory(ipService.saveIp(request.getRemoteAddr()).getIp());
     }
 
-  /*  @GetMapping(value = "/statistic")
+    @GetMapping(value = "/statistic")
     public List<Statistic> getStatistic(HttpServletRequest request) {
         return statisticService.getStatistic(request.getRemoteAddr());
     }
-*/
+
     @PostMapping(value = "/bets/range")
     public HistoryDto getRangeNumber(@RequestBody RangeLuckEntity rangeLuckEntity, HttpServletRequest request) {
         return randomService.getLuckyTryRange(request.getRemoteAddr(), rangeLuckEntity);
