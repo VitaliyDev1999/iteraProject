@@ -31,10 +31,12 @@ public class StatisticServiceImpl implements StatisticService {
             IdIpEntity idIpEntity = findOrSaveIpEntity(ipAddress);
             StatisticRequest statisticRequest =
                     statisticRequestRepository.findByIdEquals(idIpEntity.getId(), idIpEntity.getLastRange());
-            List<Statistic> statisticResult = new ArrayList<>();
-            statisticResult.add(statisticRepository.findAllByIdMax(statisticRequest.getId()));
-            statisticResult.add(statisticRepository.findAllByIdMin(statisticRequest.getId()));
-            return statisticResult;
+            if(statisticRequest != null){
+                List<Statistic> statisticResult = new ArrayList<>();
+                statisticResult.add(statisticRepository.findAllByIdMax(statisticRequest.getId()));
+                statisticResult.add(statisticRepository.findAllByIdMin(statisticRequest.getId()));
+                return statisticResult;
+            }
         }
         return null;
     }
