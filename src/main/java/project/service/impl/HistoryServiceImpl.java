@@ -19,6 +19,7 @@ public class HistoryServiceImpl implements HistoryService {
 
     private static final String WIN = "Win";
     private static final String LOSE = "Lose";
+    private static final String RANGE = "Roulette";
 
     @Autowired
     private IpRepository ipRepository;
@@ -45,6 +46,7 @@ public class HistoryServiceImpl implements HistoryService {
         IdIpEntity idIpEntity = ipRepository.findByIp(ipAddress);
         if (idIpEntity == null) {
             idIpEntity = new IdIpEntity();
+            idIpEntity.setLastRange(RANGE);
             idIpEntity.setIp(ipAddress);
             idIpEntity = ipRepository.save(idIpEntity);
         }

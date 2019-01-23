@@ -9,6 +9,8 @@ import project.service.IpService;
 @Service
 public class IpServiceImpl implements IpService {
 
+    private static final String RANGE = "Roulette";
+
     @Autowired
     private IpRepository ipRepository;
 
@@ -17,6 +19,7 @@ public class IpServiceImpl implements IpService {
         if(idIpEntity == null){
             idIpEntity = new IdIpEntity();
             idIpEntity.setIp(ipAddress);
+            idIpEntity.setLastRange(RANGE);
             idIpEntity = ipRepository.save(idIpEntity);
         }
         return idIpEntity;

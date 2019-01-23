@@ -62,7 +62,6 @@ public class StatisticServiceImplTest {
         when(statisticRepository.findAllByIdMax(RESULT_REQUEST.getId())).thenReturn(MAX_STATISTIC);
         when(statisticRepository.findAllByIdMin(RESULT_REQUEST.getId())).thenReturn(MIN_STATISTIC);
         when(statisticRequestRepository.findByIdEquals(ID_IP_ENTITY.getId(), REQUEST.getRange())).thenReturn(RESULT_REQUEST);
-        when(statisticRequestRepository.findAllByIdMax(ID_IP_ENTITY.getId())).thenReturn(RESULT_REQUEST);
     }
 
     @After
@@ -94,7 +93,6 @@ public class StatisticServiceImplTest {
         when(ipRepository.findByIp("1.1.1.1")).thenReturn(null);
         when(ipRepository.save(any(IdIpEntity.class))).thenReturn(NEW_IP_ENTITY);
         when(statisticRequestRepository.findByIdEquals(NEW_IP_ENTITY.getId(), REQUEST.getRange())).thenReturn(RESULT_REQUEST);
-        when(statisticRequestRepository.findAllByIdMax(NEW_IP_ENTITY.getId())).thenReturn(RESULT_REQUEST);
 
         List<Statistic> actualList = statisticService.getStatistic("1.1.1.1");
 

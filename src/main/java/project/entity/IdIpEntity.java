@@ -17,6 +17,9 @@ public class IdIpEntity {
     @Column(name = "ip", unique = true)
     private String ip;
 
+    @Column(name = "range", unique = true)
+    private String lastRange;
+
     @OneToMany(mappedBy="ip")
     @JsonIgnore
     private List<HistoryDbEntity> historyDbEntities;
@@ -46,6 +49,14 @@ public class IdIpEntity {
 
     public void setIp(String ip) {
         this.ip = ip;
+    }
+
+    public String getLastRange() {
+        return lastRange;
+    }
+
+    public void setLastRange(String lastRange) {
+        this.lastRange = lastRange;
     }
 
     public List<HistoryDbEntity> getHistoryDbEntities() {

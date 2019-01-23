@@ -38,7 +38,7 @@ public class RandomServiceImpl implements RandomService {
     @Override
     public HistoryDto getLuckyTry(String ipAddress, TryLuckEntity entity) {
         if (ipAddress != null) {
-            IdIpEntity idIpEntity = findOrSaveIpEntity(ipAddress);
+            IdIpEntity idIpEntity = findOrSaveIpEntity(ipAddress, ROULETTE_STRING);
             HistoryDto historyDto = Operator.checkWinReturnHistoryRoulette(entity);
 
             HistoryDbEntity historyDbEntity = new HistoryDbEntity();
@@ -60,7 +60,6 @@ public class RandomServiceImpl implements RandomService {
     @Override
     public HistoryDto getLuckyTryRange(String ipAddress, RangeLuckEntity rangeLuckEntity) {
         if (ipAddress != null) {
-            IdIpEntity idIpEntity = findOrSaveIpEntity(ipAddress);
 
             rangeLuckEntity.setBet();
             rangeLuckEntity.setRange();
@@ -68,6 +67,7 @@ public class RandomServiceImpl implements RandomService {
             HistoryDto historyDto = Operator.checkWinReturnHistoryRange(rangeLuckEntity);
             HistoryDbEntity historyDbEntity = new HistoryDbEntity();
 
+            IdIpEntity idIpEntity = findOrSaveIpEntity(ipAddress, historyDto.getRange());
             historyDbEntity.setIp(idIpEntity);
             historyDbEntity.setRange(historyDto.getRange());
             historyDbEntity.setWin(historyDto.getGame().compareTo(WIN) == 0);
@@ -124,13 +124,14 @@ public class RandomServiceImpl implements RandomService {
         return historyDto;
     }
 
-    private IdIpEntity findOrSaveIpEntity(String ipAddress) {
+    private IdIpEntity findOrSaveIpEntity(String ipAddress, String range) {
         IdIpEntity idIpEntity = ipRepository.findByIp(ipAddress);
         if (idIpEntity == null) {
             idIpEntity = new IdIpEntity();
             idIpEntity.setIp(ipAddress);
-            idIpEntity = ipRepository.save(idIpEntity);
         }
+        idIpEntity.setLastRange(range);
+        idIpEntity = ipRepository.save(idIpEntity);
         return idIpEntity;
     }
 }

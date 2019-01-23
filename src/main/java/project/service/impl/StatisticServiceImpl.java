@@ -30,7 +30,7 @@ public class StatisticServiceImpl implements StatisticService {
         if(ipAddress != null) {
             IdIpEntity idIpEntity = findOrSaveIpEntity(ipAddress);
             StatisticRequest statisticRequest =
-                    statisticRequestRepository.findAllByIdMax(idIpEntity.getId());
+                    statisticRequestRepository.findByIdEquals(idIpEntity.getId(), idIpEntity.getLastRange());
             List<Statistic> statisticResult = new ArrayList<>();
             statisticResult.add(statisticRepository.findAllByIdMax(statisticRequest.getId()));
             statisticResult.add(statisticRepository.findAllByIdMin(statisticRequest.getId()));
@@ -44,6 +44,7 @@ public class StatisticServiceImpl implements StatisticService {
         if (idIpEntity == null) {
             idIpEntity = new IdIpEntity();
             idIpEntity.setIp(ipAddress);
+            idIpEntity.setLastRange("Roulette");
             idIpEntity = ipRepository.save(idIpEntity);
         }
         return idIpEntity;
