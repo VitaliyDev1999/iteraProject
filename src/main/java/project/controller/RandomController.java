@@ -35,7 +35,7 @@ public class RandomController {
         return historyService.getSeveralLastHistory(ipService.saveIp(request.getRemoteAddr()).getIp());
     }
 
-    @GetMapping(value = "/statistic")
+    @GetMapping(value = "/statistic/roulette")
     public List<Statistic> getStatistic(HttpServletRequest request) {
         return statisticService.getStatistic(request.getRemoteAddr());
     }
