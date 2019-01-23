@@ -17,7 +17,7 @@ public class IdIpEntity {
     @Column(name = "ip", unique = true)
     private String ip;
 
-    @Column(name = "range", unique = true)
+    @Column(name = "range")
     private String lastRange;
 
     @OneToMany(mappedBy="ip")
