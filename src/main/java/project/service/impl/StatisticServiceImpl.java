@@ -56,6 +56,21 @@ public class StatisticServiceImpl implements StatisticService {
         return null;
     }
 
+    public List<Statistic> getStatisticLast(String ipAddress) {
+        if(ipAddress != null) {
+            IdIpEntity idIpEntity = findOrSaveIpEntity(ipAddress);
+            StatisticRequest statisticRequest =
+                    statisticRequestRepository.findByIdEquals(idIpEntity.getId(), idIpEntity.getLastRange());
+            if(statisticRequest != null){
+                List<Statistic> statisticResult = new ArrayList<>();
+                statisticResult.add(statisticRepository.findAllByIdMax(statisticRequest.getId()));
+                statisticResult.add(statisticRepository.findAllByIdMin(statisticRequest.getId()));
+                return statisticResult;
+            }
+        }
+        return null;
+    }
+
     private IdIpEntity findOrSaveIpEntity(String ipAddress) {
         IdIpEntity idIpEntity = ipRepository.findByIp(ipAddress);
         if (idIpEntity == null) {

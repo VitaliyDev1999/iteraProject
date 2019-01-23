@@ -45,6 +45,11 @@ public class RandomController {
         return statisticService.getStatistic(rangeStringEntity, request.getRemoteAddr());
     }
 
+    @PostMapping(value = "/statistic/last")
+    public List<Statistic> getStatisticLast(@RequestBody RangeStringEntity rangeStringEntity, HttpServletRequest request) {
+        return statisticService.getStatistic(rangeStringEntity, request.getRemoteAddr());
+    }
+
     @PostMapping(value = "/bets/range")
     public HistoryDto getRangeNumber(@RequestBody RangeLuckEntity rangeLuckEntity, HttpServletRequest request) {
         rangeLuckEntity.setRange();
