@@ -45,7 +45,7 @@ public class StatisticServiceImpl implements StatisticService {
         if(ipAddress != null) {
             IdIpEntity idIpEntity = findOrSaveIpEntity(ipAddress);
             StatisticRequest statisticRequest =
-                    statisticRequestRepository.findByIdEquals(idIpEntity.getId(), idIpEntity.getLastRange());
+                    statisticRequestRepository.findByIdEquals(idIpEntity.getId(), "Roulette");
             if(statisticRequest != null){
                 List<Statistic> statisticResult = new ArrayList<>();
                 statisticResult.add(statisticRepository.findAllByIdMax(statisticRequest.getId()));
