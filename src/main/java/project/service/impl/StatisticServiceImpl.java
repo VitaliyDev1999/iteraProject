@@ -27,46 +27,44 @@ public class StatisticServiceImpl implements StatisticService {
     private StatisticRequestRepository statisticRequestRepository;
 
     public List<Statistic> getStatistic(RangeStringEntity request, String ipAddress) {
+        List<Statistic> statisticResult = null;
         if(ipAddress != null) {
             IdIpEntity idIpEntity = findOrSaveIpEntity(ipAddress);
             StatisticRequest statisticRequest =
                     statisticRequestRepository.findByIdEquals(idIpEntity.getId(), request.getRange());
-            if(statisticRequest != null){
-                List<Statistic> statisticResult = new ArrayList<>();
-                statisticResult.add(statisticRepository.findAllByIdMax(statisticRequest.getId()));
-                statisticResult.add(statisticRepository.findAllByIdMin(statisticRequest.getId()));
-                return statisticResult;
-            }
+            statisticResult = getStatisticResult(statisticRequest);
         }
-        return null;
+        return statisticResult;
     }
 
     public List<Statistic> getStatistic(String ipAddress) {
+        List<Statistic> statisticResult = null;
         if(ipAddress != null) {
             IdIpEntity idIpEntity = findOrSaveIpEntity(ipAddress);
             StatisticRequest statisticRequest =
                     statisticRequestRepository.findByIdEquals(idIpEntity.getId(), "Roulette");
-            if(statisticRequest != null){
-                List<Statistic> statisticResult = new ArrayList<>();
-                statisticResult.add(statisticRepository.findAllByIdMax(statisticRequest.getId()));
-                statisticResult.add(statisticRepository.findAllByIdMin(statisticRequest.getId()));
-                return statisticResult;
-            }
+            statisticResult = getStatisticResult(statisticRequest);
         }
-        return null;
+        return statisticResult;
     }
 
     public List<Statistic> getStatisticLast(String ipAddress) {
+        List<Statistic> statisticResult = null;
         if(ipAddress != null) {
             IdIpEntity idIpEntity = findOrSaveIpEntity(ipAddress);
             StatisticRequest statisticRequest =
                     statisticRequestRepository.findByIdEquals(idIpEntity.getId(), idIpEntity.getLastRange());
-            if(statisticRequest != null){
-                List<Statistic> statisticResult = new ArrayList<>();
-                statisticResult.add(statisticRepository.findAllByIdMax(statisticRequest.getId()));
-                statisticResult.add(statisticRepository.findAllByIdMin(statisticRequest.getId()));
-                return statisticResult;
-            }
+            statisticResult = getStatisticResult(statisticRequest);
+        }
+        return statisticResult;
+    }
+
+    private List<Statistic> getStatisticResult(StatisticRequest statisticRequest) {
+        if(statisticRequest != null){
+            List<Statistic> statisticResult = new ArrayList<>();
+            statisticResult.add(statisticRepository.findAllByIdMax(statisticRequest.getId()));
+            statisticResult.add(statisticRepository.findAllByIdMin(statisticRequest.getId()));
+            return statisticResult;
         }
         return null;
     }
