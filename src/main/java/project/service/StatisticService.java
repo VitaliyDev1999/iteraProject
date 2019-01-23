@@ -9,4 +9,6 @@ public interface StatisticService {
     List<Statistic> getStatistic(String ipAddress);
 
     List<Statistic> getStatistic(RangeStringEntity request, String ipAddress);
+
+    List<Statistic> getStatisticLast(String ipAddress);
 }
