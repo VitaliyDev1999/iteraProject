@@ -98,7 +98,7 @@ public class RandomServiceImplTest {
         HistoryDto resultDto = randomService.getLuckyTry(TEST_IP, TRY_LUCK_ENTITY);
 
         assertEquals(VALUES_STRING, resultDto.getBet());
-        verify(ipRepository, never()).save(ID_IP_ENTITY);
+        verify(ipRepository).save(ID_IP_ENTITY);
     }
 
     @Test
@@ -126,7 +126,7 @@ public class RandomServiceImplTest {
         HistoryDto resultDto = randomService.getLuckyTry(TEST_IP, TRY_LUCK_ENTITY);
 
         assertEquals(VALUES_STRING, resultDto.getBet());
-        verify(ipRepository, never()).save(ID_IP_ENTITY);
+        verify(ipRepository).save(ID_IP_ENTITY);
     }
 
     @Test
@@ -138,7 +138,7 @@ public class RandomServiceImplTest {
         HistoryDto resultDto = randomService.getLuckyTry(TEST_IP, TRY_LUCK_ENTITY);
 
         assertEquals(VALUES_STRING, resultDto.getBet());
-        verify(ipRepository, never()).save(ID_IP_ENTITY);
+        verify(ipRepository).save(ID_IP_ENTITY);
         verify(statisticRequestRepository).findByIdEquals(ID_IP_ENTITY.getId(), ROULETTE_STRING);
         verify(statisticRequestRepository).save(any(StatisticRequest.class));
     }
@@ -158,6 +158,6 @@ public class RandomServiceImplTest {
         HistoryDto resultDto = randomService.getLuckyTryRange(TEST_IP, RANGE_LUCK_ENTITY);
 
         assertEquals(BET_INPUT, resultDto.getBet());
-        verify(ipRepository, never()).save(ID_IP_ENTITY);
+        verify(ipRepository).save(ID_IP_ENTITY);
     }
 }
