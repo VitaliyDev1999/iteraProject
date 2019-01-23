@@ -22,7 +22,7 @@ public class Operator {
         history.setResultDegree(0.0);
         history.setChoice(makeRandomInt(inputData.getRange().get(0), inputData.getRange().get(inputData.getRange().size() - 1)));
         history.setGame(checkWin(history.getChoice(), inputData.getBet()));
-        history.setColor(Color.GREEN);
+        history.setColor(Color.BLACK);
         return history;
     }
 
